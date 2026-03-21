@@ -34,7 +34,7 @@ public:
         this->cat = cat;
     }
 
-    // Définition des geteurs 
+    // Définition des getters 
     double getX()const { return x; }
     double getY() const { return y; }
     double getZ() const { return z; }
@@ -52,7 +52,6 @@ public:
     void afficherPosition() const {
         std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
     }
-
     // Définition des setter 
     void setPosition(double nx, double ny, double nz) {
         x = nx; 
@@ -82,16 +81,19 @@ public:
 
 // Comparaison entre list et vector 
 std::vector<Particule> collection(int n) {
+    // vecteur de particules 
     std::vector<Particule> particules;
     std::vector<std::string> categories = {"neutron", "proton", "electron"};
+    // Générateur de nombres aléatoires
     std::random_device rd;
     std::mt19937 mt(rd());
+    // utilisation de la distribution uniforme pour les paramètres 
     std::uniform_real_distribution<double> distPosition(-100.0, 100.0);
     std::uniform_real_distribution<double> distVitesse(-100, 100);
     std::uniform_real_distribution<double> distForce(-100, 100);
     std::uniform_real_distribution<double> distMasse(0.1, 100);
     std::uniform_int_distribution<int> distCat(0, 2);
-
+    // Boucle pour la génération des particules 
     for (int i = 0; i < n; i++) {
         particules.emplace_back(distPosition(mt), distPosition(mt), distPosition(mt),distMasse(mt),
             distVitesse(mt),distVitesse(mt),distVitesse(mt),distForce(mt),distForce(mt),distForce(mt),
@@ -101,20 +103,23 @@ std::vector<Particule> collection(int n) {
 }
 
 std::list<Particule> collectionList(int n) {
+    //liste des particules 
     std::list<Particule> particules;
     std::vector<std::string> categories = {"neutron", "proton", "electron"};
+    // Générateurs de nombres aléatoites
     std::random_device rd;
     std::mt19937 mt(rd());
+    // Utilisation de la distribution uniforme pour les paramètres 
     std::uniform_real_distribution<double> distPosition(-100.0, 100.0);
     std::uniform_real_distribution<double> distVitesse(-100, 100);
     std::uniform_real_distribution<double> distForce(-100, 100);
     std::uniform_real_distribution<double> distMasse(0.1, 100);
     std::uniform_int_distribution<int> distCat(0, 2);
-
+    // Boucle pour la génération des particules 
     for (int i = 0; i < n; i++) {
         particules.emplace_back(distPosition(mt), distPosition(mt), distPosition(mt),distMasse(mt),
-            distVitesse(mt), distVitesse(mt),distVitesse(mt),distForce(mt),distForce(mt),distForce(mt),
-            i, categories[distCat(mt)]);
+        distVitesse(mt), distVitesse(mt),distVitesse(mt),distForce(mt),distForce(mt),distForce(mt),
+        i, categories[distCat(mt)]);
     }
     return particules;
 }
@@ -150,12 +155,12 @@ void calculerForces(std::vector<Particule>& particules) {
 }
 
 
-// Algorithme de Störmer-Verlet avec la sauvegarde des positions dans un fichier de sortie
+// Algorithme de Stormer-Verlet avec la sauvegarde des positions dans un fichier de sortie
 void algorithmeStormerVerlet(std::vector<Particule>& particules,double dt, double t_end,const std::string& fichierSortie){
     double t = 0;
     calculerForces(particules);
     std::vector<Vecteur> F_old(particules.size());
-    // Ouverture du fichier de sortie (Q6)
+    // Ouverture du fichier de sortie
     std::ofstream ofs;
     bool sauvegarder = !fichierSortie.empty();
     if (sauvegarder) {
@@ -163,11 +168,10 @@ void algorithmeStormerVerlet(std::vector<Particule>& particules,double dt, doubl
         ofs << "t";
         for (const auto& p : particules)
             ofs << "\t" << p.getCat() << "_x\t" << p.getCat() << "_y";
-        ofs << "\n";
-        
-        
+        ofs << "\n";        
+       
     }
-
+    // Boucle de l'algorithme de Stormer-Verlet
     while (t < t_end) {
         t += dt;
         for (size_t i = 0; i < particules.size(); ++i) {
@@ -178,9 +182,11 @@ void algorithmeStormerVerlet(std::vector<Particule>& particules,double dt, doubl
                 p.getY() + dt * (p.getVitesseY() + 0.5 / m * p.getForceY() * dt),
                 p.getZ() + dt * (p.getVitesseZ() + 0.5 / m * p.getForceZ() * dt)
             );
+            // Sauvegarde des anciennes forces 
             F_old[i] = {p.getForceX(), p.getForceY(), p.getForceZ()};
         }
         calculerForces(particules);
+        // Mise à our  des vitesses
         for (size_t i = 0; i < particules.size(); ++i) {
             Particule& p = particules[i];
             double m = p.getMasse();
@@ -189,7 +195,7 @@ void algorithmeStormerVerlet(std::vector<Particule>& particules,double dt, doubl
                 p.getVitesseZ() + dt * 0.5 / m * (p.getForceZ() + F_old[i].fz)
             );
         }
-        std::cout << "t=" << t;
+        std::cout << "instant t=" << t;
         for (const auto& p : particules)
             std::cout << "  " << p.getCat() << ":(" << p.getX() << "," << p.getY() << ")";
         std::cout << "\n";
@@ -202,13 +208,11 @@ void algorithmeStormerVerlet(std::vector<Particule>& particules,double dt, doubl
     }
 }
 
-// Définition de la struct état pour la simulation d'après le foramt du fichier de sortie 
-struct Etat {double t;double sx, sy;double tx, ty;double jx, jy;double hx, hy;};
-// Simulation gravitationnelle du système solaire 
+ 
 int main() {
     std::vector<Particule> systeme;
     systeme.emplace_back(0,0, 0, 1.0, 0, 0, 0, 0, 0, 0, 0, "Soleil");
-    systeme.emplace_back(0, 1,0, 3.0e-6, -1.0,    0, 0, 0, 0, 0, 1, "Terre");
+    systeme.emplace_back(0, 1,0, 3.0e-6, -1.0,0, 0, 0, 0, 0, 1, "Terre");
     systeme.emplace_back(0,5.36, 0, 9.55e-4,-0.425,  0, 0, 0, 0, 0, 2, "Jupiter");
     systeme.emplace_back(34.75, 0,0, 1.0e-14, 0, 0.0296, 0, 0, 0, 0, 3, "Haley");
 
@@ -238,56 +242,7 @@ int main() {
         std::chrono::duration<double> elapsed = end - start;
         std::cout << "  n=" << n << " : " << elapsed.count() << " s\n";
     }
-        std::ifstream file("positions.txt");
-
-    std::vector<Etat> data;
-    std::string header;
-    std::getline(file, header); // ignorer entête
-    Etat e;
-    while(file >> e.t >> e.sx >> e.sy >> e.tx >> e.ty >> e.jx >> e.jy >> e.hx >> e.hy)
-        data.push_back(e);
-    sf::RenderWindow window(sf::VideoMode(800,800), "Systeme solaire");
-    sf::CircleShape soleil(6);
-    soleil.setFillColor(sf::Color::Yellow);
-    sf::CircleShape terre(3);
-    terre.setFillColor(sf::Color::Blue);
-    sf::CircleShape jupiter(5);
-    jupiter.setFillColor(sf::Color(200,150,100));
-
-    sf::CircleShape halley(2);
-    halley.setFillColor(sf::Color::White);
-
-    float scale = 50;
-
-    int i = 0;
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-            if (event.type == sf::Event::Closed)
-                window.close();
-
-        window.clear();
-
-        auto &d = data[i];
-
-        soleil.setPosition(400 + d.sx*scale, 400 + d.sy*scale);
-        terre.setPosition(400 + d.tx*scale, 400 + d.ty*scale);
-        jupiter.setPosition(400 + d.jx*scale, 400 + d.jy*scale);
-        halley.setPosition(400 + d.hx*scale, 400 + d.hy*scale);
-
-        window.draw(soleil);
-        window.draw(terre);
-        window.draw(jupiter);
-        window.draw(halley);
-
-        window.display();
-
-        i = (i+1) % data.size();
-
-        sf::sleep(sf::milliseconds(20));
-    }
+    std::ifstream file("positions.txt");
 
     return 0;
 }
