@@ -1,0 +1,1 @@
+/usr/bin/c++ -pg CMakeFiles/exe.dir/Particule.cpp.o -o exe  -lsfml-graphics -lsfml-window -lsfml-system 
