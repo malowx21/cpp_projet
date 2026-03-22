@@ -2,6 +2,7 @@
 #include "Univers.hpp"
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs)
     : dimension(dim), t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs) {
@@ -35,8 +36,6 @@ void Univers::initialiser_grille() {
                 );
                 cellules[idx].index = idx;
 
-                // Precalcul des voisins valides stockes de facon compacte
-                // On remplit le tableau voisins[] en sautant les cases hors grille
                 int voisin_idx = 0;
                 for (int di = -1; di <= 1; di++)
                     for (int dj = -1; dj <= 1; dj++)
@@ -48,9 +47,7 @@ void Univers::initialiser_grille() {
                                 cellules[idx].voisins[voisin_idx++] =
                                     ni + nj*n_cubes[0] + nk*n_cubes[0]*n_cubes[1];
                         }
-                // Marquer la fin de la liste avec -1
-                //(les cases restantes sont deja -1 grace au fill dans Cellule())
-                cellules[idx].nb_voisins = voisin_idx; 
+                cellules[idx].nb_voisins = voisin_idx;
             }
         }
     }
@@ -78,8 +75,6 @@ void Univers::mettre_a_jour_cellules() {
         cellules[get_cellule_index(particules[i].position)].particules_ids.push_back(i);
 }
 
-// On garde get_voisins() pour compatibilite mais on ne l'appelle plus dans
-// calculer_forces_lj() — on accede directement au tableau precalcule.
 std::vector<int> Univers::get_voisins(int cellule_idx) const {
     std::vector<int> res;
     const Cellule& c = cellules[cellule_idx];
@@ -89,47 +84,38 @@ std::vector<int> Univers::get_voisins(int cellule_idx) const {
 }
 
 void Univers::calculer_forces_lj() {
-    // Reset forces
     for (auto& p : particules) p.force = Vecteur(0, 0, 0);
 
-    // Q5 : mise a jour des cellules
     mettre_a_jour_cellules();
 
-    // Precalcul pour eviter les divisions repetees
-    const double rcut2   = rcut * rcut;
-    const double sig2    = sigma * sigma;
-    const double eps24   = 24.0 * epsilon;
+    const double rcut2 = rcut * rcut;
+    const double sig2  = sigma * sigma;
+    const double eps24 = 24.0 * epsilon;
 
     for (size_t ic = 0; ic < cellules.size(); ic++) {
         if (cellules[ic].est_vide()) continue;
 
-        // Acces direct au tableau precalcule : zero allocation heap
         const Cellule& cell_i = cellules[ic];
 
         for (int n = 0; n < cell_i.nb_voisins; ++n) {
             int jc = cell_i.voisins[n];
-            if (jc < (int)ic) continue;  // Newton 3: on ne traite chaque paire qu'une fois
+            if (jc < (int)ic) continue;
 
             const Cellule& cell_j = cellules[jc];
             if (cell_j.est_vide()) continue;
 
             for (int i : cell_i.particules_ids) {
                 for (int j : cell_j.particules_ids) {
-                    if (ic == jc && i >= j) continue;  //meme cellule : eviter doublon
+                    if (ic == jc && i >= j) continue;
 
                     Vecteur rij = particules[j].position - particules[i].position;
-
-                    // Travail sur r² pour eviter sqrt() tant que possible
                     double r2 = rij.x*rij.x + rij.y*rij.y + rij.z*rij.z;
 
                     if (r2 < 1e-10 || r2 > rcut2) continue;
 
-                    // (sigma/r)^6 sans pow() ni sqrt()
-                    double sr2 = sig2 / r2;
-                    double sr6 = sr2 * sr2 * sr2;
-                    double sr12 = sr6 * sr6;
-
-                    // F = 24*eps/r² * [sr6 - 2*sr12] * rij  (formule exacte)
+                    double sr2    = sig2 / r2;
+                    double sr6    = sr2 * sr2 * sr2;
+                    double sr12   = sr6 * sr6;
                     double facteur = eps24 / r2 * (sr6 - 2.0 * sr12);
 
                     Vecteur Fij = rij * facteur;
@@ -141,24 +127,48 @@ void Univers::calculer_forces_lj() {
     }
 }
 
+
 void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
     if (t >= t_end) return;
 
+    int N = particules.size();
+
+    
     if (utiliser_gravite) {
-        // calculer_forces_gravite() a implementer si besoin
+        // calculer_forces_gravite();
     } else {
         calculer_forces_lj();
     }
 
-    int N = particules.size();
+ 
+    //   x(t+dt) = x(t) + v(t)*dt + 0.5*a(t)*dt**2
     for (int i = 0; i < N; i++) {
         Vecteur acc = particules[i].force / particules[i].m;
-        particules[i].vitesse  += acc * dt;
-        particules[i].position += particules[i].vitesse * dt;
+        particules[i].position += particules[i].vitesse * dt
+                                + acc * (0.5 * dt * dt);
     }
 
-    // Q5 : mise a jour des cellules apres deplacement
+    // Q5 : replacer dans les cellules apres deplacement 
     mettre_a_jour_cellules();
+
+   
+    std::vector<Vecteur> forces_old(N);
+    for (int i = 0; i < N; i++)
+        forces_old[i] = particules[i].force;
+
+    if (utiliser_gravite) {
+        // calculer_forces_gravite();
+    } else {
+        calculer_forces_lj();
+    }
+
+   
+    //   v(t+dt) = v(t) + 0.5*(a(t) + a(t+dt))*dt
+    for (int i = 0; i < N; i++) {
+        Vecteur acc_old = forces_old[i]       / particules[i].m;
+        Vecteur acc_new = particules[i].force / particules[i].m;
+        particules[i].vitesse += (acc_old + acc_new) * (0.5 * dt);
+    }
 
     t += dt;
 }

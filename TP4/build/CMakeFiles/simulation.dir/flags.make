@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/ensimag/cpp_projet/TP4/include
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -std=gnu++17 -O2
 

@@ -140,9 +140,6 @@ simulation: CMakeFiles/simulation.dir/src/Univers.cpp.o
 simulation: CMakeFiles/simulation.dir/src/Vecteur.cpp.o
 simulation: CMakeFiles/simulation.dir/src/main.cpp.o
 simulation: CMakeFiles/simulation.dir/build.make
-simulation: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.6.1
-simulation: /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.6.1
-simulation: /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.6.1
 simulation: CMakeFiles/simulation.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ensimag/cpp_projet/TP4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable simulation"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/simulation.dir/link.txt --verbose=$(VERBOSE)
