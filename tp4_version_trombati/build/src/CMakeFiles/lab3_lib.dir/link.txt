@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblab3_lib.a CMakeFiles/lab3_lib.dir/vecteur.cxx.o CMakeFiles/lab3_lib.dir/particule.cxx.o CMakeFiles/lab3_lib.dir/celluleTp4.cxx.o CMakeFiles/lab3_lib.dir/universTp4.cxx.o
+/usr/bin/ranlib liblab3_lib.a

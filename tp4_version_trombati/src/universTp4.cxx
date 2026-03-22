@@ -83,9 +83,11 @@ void UniversTp4::calculer_forces() {
                     double dz = pi[2] - pj[2];
                     double rij = sqrt(dx*dx + dy*dy + dz*dz);
  
-                    if (rij == 0 || rij > r_cut) continue;
-                    double c  = pow(sigma/rij,6);
-                    double f = 24 * epsilon / pow(rij,2) * c * (1 - 2*c);
+                    if (rij < 1e-10 || rij > r_cut) continue;
+                    double rij2 = rij * rij;
+                    double sr2  = (sigma * sigma) / rij2;
+                    double c    = sr2 * sr2 * sr2;          // (sigma/rij)^6 sans pow()
+                    double f    = 24.0 * epsilon / rij2 * c * (1.0 - 2.0 * c);
  
                     pi[6] += f * dx;
                     pi[7] += f * dy;
@@ -143,6 +145,7 @@ void UniversTp4::avancer(double dt){
         F_old[i][1]= collection[i][7];
         F_old[i][2]= collection[i][8];
     }
+    maj_cellules();     // positions mises a jour -> replacer les particules dans les bonnes cellules
     calculer_forces();
     for (int i=0;i<(int)collection.size();i++){
         collection[i][3] = collection[i][3]+ dt* (0.5/collection[i][9])* (collection[i][6]+F_old[i][0]);

@@ -25,3 +25,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 ## On implémente une démo, un programme de vérification.
+
+
+#optimisation
+target_compile_options(simulation PRIVATE -O2)
