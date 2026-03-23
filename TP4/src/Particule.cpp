@@ -1,13 +1,12 @@
 #include "Particule.hpp"
 #include <iostream>
 
-
-#include "Vecteur.hpp"
- 
+// Constructeur par defaut
+Particule::Particule() : position(), vitesse(), force(), m(0.0), id(0) {}
 
 void Particule::AffichePosition() const {
     std::cout << id << " : "
-            << position.x << ", "
-            << position.y << ", "
-            << position.z << "\n";
+              << position.getX() << ", "
+              << position.getY() << ", "
+              << position.getZ() << "\n";
 }

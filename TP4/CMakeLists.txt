@@ -14,5 +14,5 @@ add_executable(simulation ${SOURCES} ${HEADERS})
 
 # Include directories
 target_include_directories(simulation PRIVATE include)
-
+#optimisation
 target_compile_options(simulation PRIVATE -O2)
