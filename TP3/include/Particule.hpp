@@ -1,17 +1,40 @@
 #ifndef PARTICULE_HPP
 #define PARTICULE_HPP
-#include "Particule.hpp"
 #include "Vecteur.hpp"
+
 class Particule
 {
-public:
+private:
     Vecteur position;
     Vecteur vitesse;
     Vecteur force;
-
     double m;
     int id;
 
+public:
+    // Constructeur
+    Particule();
+
+    // Getters const pour lecture
+    const Vecteur& getPosition() const { return position; }
+    const Vecteur& getVitesse()  const { return vitesse;  }
+    const Vecteur& getForce()    const { return force;    }
+    double getMasse() const { return m;  }
+    int    getId()    const { return id; }
+
+    // Getters non-const pour modification (+=, -= etc.)
+    Vecteur& getPosition() { return position; }
+    Vecteur& getVitesse()  { return vitesse;  }
+    Vecteur& getForce()    { return force;    }
+
+    // Setters
+    void setPosition(const Vecteur& p) { position = p; }
+    void setVitesse(const Vecteur& v)  { vitesse  = v; }
+    void setForce(const Vecteur& f)    { force    = f; }
+    void setMasse(double m_)           { m  = m_;      }
+    void setId(int id_)                { id = id_;     }
+
     void AffichePosition() const;
 };
+
 #endif

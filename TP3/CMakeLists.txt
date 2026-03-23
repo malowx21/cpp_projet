@@ -14,6 +14,7 @@ set(SOURCES
     src/main.cpp
     src/Vecteur.cpp
     src/Univers.cpp
+    src/Particule.cpp
 )
 
 

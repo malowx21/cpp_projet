@@ -129,6 +129,30 @@ simulation/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/build
 .PHONY : simulation/fast
 
+src/Particule.o: src/Particule.cpp.o
+.PHONY : src/Particule.o
+
+# target to build an object file
+src/Particule.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Particule.cpp.o
+.PHONY : src/Particule.cpp.o
+
+src/Particule.i: src/Particule.cpp.i
+.PHONY : src/Particule.i
+
+# target to preprocess a source file
+src/Particule.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Particule.cpp.i
+.PHONY : src/Particule.cpp.i
+
+src/Particule.s: src/Particule.cpp.s
+.PHONY : src/Particule.s
+
+# target to generate assembly for a file
+src/Particule.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Particule.cpp.s
+.PHONY : src/Particule.cpp.s
+
 src/Univers.o: src/Univers.cpp.o
 .PHONY : src/Univers.o
 
@@ -210,6 +234,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... simulation"
+	@echo "... src/Particule.o"
+	@echo "... src/Particule.i"
+	@echo "... src/Particule.s"
 	@echo "... src/Univers.o"
 	@echo "... src/Univers.i"
 	@echo "... src/Univers.s"
