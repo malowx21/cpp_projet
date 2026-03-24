@@ -15,14 +15,14 @@ public:
     // Constructeur
     Particule();
 
-    // Getters
+    // Getters const pour lecture
     const Vecteur& getPosition() const { return position; }
     const Vecteur& getVitesse()  const { return vitesse;  }
     const Vecteur& getForce()    const { return force;    }
     double getMasse() const { return m;  }
     int    getId()    const { return id; }
 
-    // Getters non-const pour modification interne (Univers en a besoin)
+    // Getters non-const pour modification (+=, -= etc.)
     Vecteur& getPosition() { return position; }
     Vecteur& getVitesse()  { return vitesse;  }
     Vecteur& getForce()    { return force;    }

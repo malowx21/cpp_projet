@@ -1,90 +1,35 @@
 #include "Univers.hpp"
 #include <iostream>
-#include <algorithm>
-#include <vector>
+#include <cmath>
 
-Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs)
-    : dimension(dim), t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs) {
+Univers::Univers(int dim) : dimension(dim), t(0.0) {}
 
-    while (L.size() < 3) L.push_back(1.0);
-
-    for (int d = 0; d < 3; d++) {
-        n_cubes[d] = std::max(1, static_cast<int>(L[d] / rcut));
-        taille_cellule[d] = L[d] / n_cubes[d];
-    }
-
-    std::cout << "Grille: " << n_cubes[0] << " x " << n_cubes[1] << " x " << n_cubes[2]
-              << " = " << n_cubes[0]*n_cubes[1]*n_cubes[2] << " cellules\n";
-
-    initialiser_grille();
-}
-
-void Univers::initialiser_grille() {
-    int total = n_cubes[0] * n_cubes[1] * n_cubes[2];
-    cellules.resize(total);
-
-    for (int i = 0; i < n_cubes[0]; i++) {
-        for (int j = 0; j < n_cubes[1]; j++) {
-            for (int k = 0; k < n_cubes[2]; k++) {
-                int idx = i + j*n_cubes[0] + k*n_cubes[0]*n_cubes[1];
-
-                cellules[idx].setCentre(Vecteur(
-                    (i + 0.5) * taille_cellule[0],
-                    (j + 0.5) * taille_cellule[1],
-                    (k + 0.5) * taille_cellule[2]
-                ));
-                cellules[idx].setIndex(idx);
-
-                // calcul des voisins valides dans les 27 directions
-                int voisin_idx = 0;
-                for (int di = -1; di <= 1; di++)
-                    for (int dj = -1; dj <= 1; dj++)
-                        for (int dk = -1; dk <= 1; dk++) {
-                            int ni = i+di, nj = j+dj, nk = k+dk;
-                            if (ni >= 0 && ni < n_cubes[0] &&
-                                nj >= 0 && nj < n_cubes[1] &&
-                                nk >= 0 && nk < n_cubes[2])
-                                cellules[idx].setVoisin(voisin_idx++,
-                                    ni + nj*n_cubes[0] + nk*n_cubes[0]*n_cubes[1]);
-                        }
-                cellules[idx].setNbVoisins(voisin_idx);
-            }
-        }
-    }
-}
-
-void Univers::ajouter_particule(const Particule& p) {
+void Univers::ajouterParticule(const Particule& p) {
     particules.push_back(p);
 }
 
-int Univers::get_cellule_index(const Vecteur& pos) const {
-    int i = static_cast<int>(pos.getX() / taille_cellule[0]);
-    int j = static_cast<int>(pos.getY() / taille_cellule[1]);
-    int k = static_cast<int>(pos.getZ() / taille_cellule[2]);
+void Univers::calcul_forces() {
+    double eps = 0.05;  //parametre de softening
+    double G = 1.0;
+    int N = particules.size();
+    double softening = eps * eps;
 
-    i = std::max(0, std::min(i, n_cubes[0] - 1));
-    j = std::max(0, std::min(j, n_cubes[1] - 1));
-    k = std::max(0, std::min(k, n_cubes[2] - 1));
+    //reinitialisation des forces
+    for (auto& p : particules)
+        p.setForce(Vecteur(0, 0, 0));
 
-    return i + j*n_cubes[0] + k*n_cubes[0]*n_cubes[1];
-}
+    //calcul des forces gravitationnelles avec Newton 3
+    for (int i = 0; i < N; i++) {
+        for (int j = i + 1; j < N; j++) {
+            Vecteur rij = particules[j].getPosition() - particules[i].getPosition();
 
-void Univers::mettre_a_jour_cellules() {
-    for (auto& c : cellules) c.vider();
-    for (size_t i = 0; i < particules.size(); i++)
-        cellules[get_cellule_index(particules[i].getPosition())].addParticule(i);
-}
+            double dist = rij.norm();
 
-std::vector<int> Univers::get_voisins(int cellule_idx) const {
-    std::vector<int> res;
-    const Cellule& c = cellules[cellule_idx];
-    for (int n = 0; n < c.getNbVoisins(); ++n)
-        res.push_back(c.getVoisins()[n]);
-    return res;
-}
+            // F = G * m1 * m2 / r^2 avec softening
+            double factor = G * particules[i].getMasse() * particules[j].getMasse()
+                          / (dist * dist * dist + softening);
 
-void Univers::calculer_forces_lj() {
-    for (auto& p : particules) p.setForce(Vecteur(0, 0, 0));
+            Vecteur F = rij * factor;
 
     // mettre_a_jour_cellules();
 
@@ -128,23 +73,16 @@ void Univers::calculer_forces_lj() {
     }
 }
 
-// Stormer-Verlet (vitesse-Verlet)
-// x(t+dt) = x(t) + v(t)*dt + 0.5*a(t)*dt²
-// v(t+dt) = v(t) + 0.5*(a(t) + a(t+dt))*dt
-void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
+void Univers::avancer(double dt, double t_end) {
     if (t >= t_end) return;
-
     int N = particules.size();
+    if (N == 0) return;
 
-    // F(t)
-    if (utiliser_gravite) {
-        // calculer_forces_gravite();
-    } else {
-        calculer_forces_lj();
-    }
+    calcul_forces();
 
-    // mise a jour des positions avec F(t)
+    //integration Euler
     for (int i = 0; i < N; i++) {
+        //mise a jour vitesse et position
         Vecteur acc = particules[i].getForce() / particules[i].getMasse();
         particules[i].getPosition() += particules[i].getVitesse() * dt
                                      + acc * (0.5 * dt * dt);
@@ -174,16 +112,7 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
     t += dt;
 }
 
-void Univers::afficher_stats_grille() const {
-    int occupees = 0;
-    size_t max_p = 0;
-    for (const auto& c : cellules) {
-        if (!c.est_vide()) {
-            ++occupees;
-            max_p = std::max(max_p, c.getParticules().size());
-        }
-    }
-    std::cout << "Cellules occupees: " << occupees << "/" << cellules.size()
-              << " (" << (100.0 * occupees / cellules.size()) << "%)\n";
-    std::cout << "Max particules/cellule: " << max_p << "\n";
+void Univers::afficher() const {
+    for (const auto& p : particules)
+        p.AffichePosition();
 }

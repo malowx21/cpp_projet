@@ -1,6 +1,7 @@
 #include "Vecteur.hpp"
 #include "Particule.hpp"
 #include "Univers.hpp"
+#include "export_vtk.hpp"
 #include <iostream>
 #include <chrono>
 #include <cmath>
@@ -61,7 +62,7 @@ Univers creer_univers(int k) {
 
     std::mt19937 rng(42);
     std::uniform_real_distribution<double> dist(0.0, step);
-
+    
     int id = 0;
     for (int i = 0; i < n; ++i)
         for (int j = 0; j < n; ++j)
@@ -189,25 +190,55 @@ void demo_simplifications() {
     std::cout << "  Ratio    : " << ms_naive / ms_newton3 << "x" << std::endl;
 }
 
+// Simulation principale avec export VTK
 int main() {
     //Q3 - tests unitaires
     test_vecteur();
 
-    //Q6 - creation de l'univers reference
-    demo_univers_k5();
+    // Parametres de simulation
+    const int k = 3;                 // 2^k particules par dimension
+    const double dt = 0.001;         // pas de temps
+    const int n_steps = 1000;        // nombre de pas de temps
+    const int SAVE_EVERY = 10;       // sauvegarde tous les SAVE_EVERY pas
 
-    //Q7 - benchmark insertion
-    benchmark_insertion();
+    Univers U = creer_univers(k);
+    std::cout << "\n Simulation avec " << U.getParticules().size()
+              << " particules, dt=" << dt << ", steps=" << n_steps << std::endl;
 
-    //Q8 - benchmark calcul des forces, k=3..5 pour eviter le temps trop long
-    benchmark_forces();
+    // Boucle principale
+    for (int step = 0; step <= n_steps; ++step) {
+        // Calcul des forces (Newton 3)
+        U.calcul_forces();
 
-    //Q9 - verification conservation impulsion
-    verif_conservation_impulsion();
+        // Mise a jour des positions et vitesses (schema d'Euler)
+        for (auto& p : U.getParticules()) {
+            Vecteur acc = p.getForce() / p.getMasse();
+            p.setVitesse(p.getVitesse() + acc * dt);
+            p.setPosition(p.getPosition() + p.getVitesse() * dt);
+            p.setForce(Vecteur(0.0, 0.0, 0.0)); // remise a zero pour le prochain pas
+        }
 
-    //Q10 - comparaison naive vs optimise
-    demo_simplifications();
+        // Export VTK
+        if (step % SAVE_EVERY == 0) {
+            exporter_vtk_serie(U, step);
+            std::cout << "  Exporte step " << step << std::endl;
+        }
+    }
 
-    std::cout << "\nTous les tests et benchmarks termines." << std::endl;
+     //Q6 - creation de l'univers reference
+     demo_univers_k5();
+
+     //Q7 - benchmark insertion
+     benchmark_insertion();
+ 
+     //Q8 - benchmark calcul des forces, k=3..5 pour eviter le temps trop long
+     benchmark_forces();
+ 
+     //Q9 - verification conservation impulsion
+     verif_conservation_impulsion();
+ 
+     //Q10 - comparaison naive vs optimise
+     demo_simplifications();
+    std::cout << "\n Simulation terminee. Fichiers .vtu generes." << std::endl;
     return 0;
 }

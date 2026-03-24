@@ -27,7 +27,9 @@ public:
     Vecteur operator-(const Vecteur& v) const;
     Vecteur operator*(double a) const;
     Vecteur operator/(double a) const;
+    //+= et -=
     Vecteur& operator+=(const Vecteur& v);
+    Vecteur& operator-=(const Vecteur& v);
 };
 
 #endif

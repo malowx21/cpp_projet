@@ -1,4 +1,4 @@
-# Install script for directory: /root/cpp/tp2
+# Install script for directory: /home/ensimag/cpp_projet/tp2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/root/cpp/tp2/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ensimag/cpp_projet/tp2/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
