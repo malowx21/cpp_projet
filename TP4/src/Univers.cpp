@@ -86,7 +86,7 @@ std::vector<int> Univers::get_voisins(int cellule_idx) const {
 void Univers::calculer_forces_lj() {
     for (auto& p : particules) p.setForce(Vecteur(0, 0, 0));
 
-    mettre_a_jour_cellules();
+    // mettre_a_jour_cellules();
 
     const double rcut2 = rcut * rcut;
     const double sig2  = sigma * sigma;
@@ -166,7 +166,7 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
 
     // mise a jour des vitesses avec F(t) et F(t+dt)
     for (int i = 0; i < N; i++) {
-        Vecteur acc_old = forces_old[i]            / particules[i].getMasse();
+        Vecteur acc_old = forces_old[i] / particules[i].getMasse();
         Vecteur acc_new = particules[i].getForce() / particules[i].getMasse();
         particules[i].getVitesse() += (acc_old + acc_new) * (0.5 * dt);
     }
