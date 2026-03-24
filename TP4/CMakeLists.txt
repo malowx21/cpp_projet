@@ -1,18 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
-project(ParticleSimulation)
+
+project(TP4)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# sources du projet
+file(GLOB SOURCES "src/*.cxx")
 
+# bibliothèque du projet
+add_library(tp4_lib ${SOURCES})
 
-# Sources in src directory
-file(GLOB SOURCES "src/*.cpp")
-file(GLOB HEADERS "include/*.hpp")
+target_include_directories(tp4_lib PUBLIC include)
 
-add_executable(simulation ${SOURCES} ${HEADERS})
-
-# Include directories
-target_include_directories(simulation PRIVATE include)
-#optimisation
-target_compile_options(simulation PRIVATE -O2)
+# sous-dossiers
+add_subdirectory(demo)
+add_subdirectory(test)
