@@ -6,6 +6,8 @@
 
 //Q2 - tests de la classe Vecteur
 
+// ./tests        # lance tous les tests
+// ./tests --gtest_filter=VecteurTest.*   # seulement Vecteur
 TEST(VecteurTest, ConstructeurDefaut) {
     Vecteur v;
     EXPECT_EQ(v.getX(), 0.0);

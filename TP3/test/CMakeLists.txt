@@ -15,7 +15,7 @@ set(HEADERS
     include/Vecteur.hpp
     include/Univers.hpp
     include/Particule.hpp
-    include/export_vtk.hpp
+    
 )
 
 # executable principal

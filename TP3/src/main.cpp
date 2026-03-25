@@ -1,7 +1,6 @@
 #include "Vecteur.hpp"
 #include "Particule.hpp"
 #include "Univers.hpp"
-#include "export_vtk.hpp"
 #include <iostream>
 #include <chrono>
 #include <cmath>
@@ -195,40 +194,12 @@ int main() {
     //Q3 - tests unitaires
     test_vecteur();
 
-    // Parametres de simulation
-    const int k = 3;                 // 2^k particules par dimension
-    const double dt = 0.001;         // pas de temps
-    const int n_steps = 1000;        // nombre de pas de temps
-    const int SAVE_EVERY = 10;       // sauvegarde tous les SAVE_EVERY pas
+    
 
-    Univers U = creer_univers(k);
-    std::cout << "\n Simulation avec " << U.getParticules().size()
-              << " particules, dt=" << dt << ", steps=" << n_steps << std::endl;
-
-    // Boucle principale
-    for (int step = 0; step <= n_steps; ++step) {
-        // Calcul des forces (Newton 3)
-        U.calcul_forces();
-
-        // Mise a jour des positions et vitesses (schema d'Euler)
-        for (auto& p : U.getParticules()) {
-            Vecteur acc = p.getForce() / p.getMasse();
-            p.setVitesse(p.getVitesse() + acc * dt);
-            p.setPosition(p.getPosition() + p.getVitesse() * dt);
-            p.setForce(Vecteur(0.0, 0.0, 0.0)); // remise a zero pour le prochain pas
-        }
-
-        // Export VTK
-        if (step % SAVE_EVERY == 0) {
-            exporter_vtk_serie(U, step);
-            std::cout << "  Exporte step " << step << std::endl;
-        }
-    }
-
-     //Q6 - creation de l'univers reference
+     //Q6 -creation de l'univers reference
      demo_univers_k5();
 
-     //Q7 - benchmark insertion
+     //Q7 -benchmark insertion
      benchmark_insertion();
  
      //Q8 - benchmark calcul des forces, k=3..5 pour eviter le temps trop long
@@ -239,6 +210,6 @@ int main() {
  
      //Q10 - comparaison naive vs optimise
      demo_simplifications();
-    std::cout << "\n Simulation terminee. Fichiers .vtu generes." << std::endl;
+    std::cout << "\n Simulation terminee" << std::endl;
     return 0;
 }
