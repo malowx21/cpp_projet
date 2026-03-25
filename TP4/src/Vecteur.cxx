@@ -10,6 +10,7 @@ double Vecteur::norm() const {
     return std::sqrt(x*x + y*y + z*z);
 }
 
+// Opérations arithmétiques 
 Vecteur Vecteur::operator+(const Vecteur& v) const {
     return Vecteur(x + v.x, y + v.y, z + v.z);
 }
@@ -26,7 +27,7 @@ Vecteur Vecteur::operator/(double a) const {
     return Vecteur(x/a, y/a, z/a);
 }
 
-//+=
+//Opérateur += 
 Vecteur& Vecteur::operator+=(const Vecteur& v) {
     x += v.x;
     y += v.y;
@@ -34,7 +35,7 @@ Vecteur& Vecteur::operator+=(const Vecteur& v) {
     return *this;
 }
 
-//-=
+//Opérateur -=
 Vecteur& Vecteur::operator-=(const Vecteur& v) {
     x -= v.x;
     y -= v.y;
