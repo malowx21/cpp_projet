@@ -79,7 +79,7 @@ Univers creer_univers(int k) {
     return U;
 }
 
-//Q6 - univers avec (2^5)^3 particules k=5
+// univers avec (2^5)^3 particules k=5
 void demo_univers_k5() {
     std::cout << "\n Q6 : creation univers k=5 " << std::endl;
     Univers U = creer_univers(5);
