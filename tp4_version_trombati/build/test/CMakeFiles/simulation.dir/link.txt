@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wall CMakeFiles/simulation.dir/simulation.cxx.o -o simulation  ../src/liblab3_lib.a 
