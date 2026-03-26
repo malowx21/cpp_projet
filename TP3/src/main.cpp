@@ -8,7 +8,7 @@
 #include <vector>
 #include <random>
 
-//Q3 - tests unitaires de la classe Vecteur
+//tests unitaires de la classe Vecteur
 void test_vecteur() {
     std::cout << "Tests Vecteur :" << std::endl;
 
@@ -87,7 +87,7 @@ void demo_univers_k5() {
               << " (attendu " << (1 << 5) * (1 << 5) * (1 << 5) << ")" << std::endl;
 }
 
-//Q7 - benchmark insertion
+//benchmark insertion
 void benchmark_insertion() {
     std::cout << "\n Q7 : benchmark insertion: " << std::endl;
 
@@ -103,7 +103,7 @@ void benchmark_insertion() {
     }
 }
 
-//Q8 - benchmark calcul des interactions
+//benchmark calcul des interactions
 void benchmark_forces() {
     std::cout << "\n Q8 : benchmark calcul_forces: " << std::endl;
 
@@ -124,7 +124,7 @@ void benchmark_forces() {
     }
 }
 
-//Q9 - verification conservation impulsion (Newton 3)
+//verification conservation impulsion (Newton 3)
 void verif_conservation_impulsion() {
     std::cout << "\n Q9 : verification conservation impulsion: " << std::endl;
 
@@ -143,13 +143,13 @@ void verif_conservation_impulsion() {
     std::cout << "  Conservation de l'impulsion verifiee (|somme| < 1e-6)." << std::endl;
 }
 
-//Q10 - comparaison naive vs Newton-3
+//comparaison naive vs Newton-3
 // simplifications possibles :
-// 1. symetrie Newton 3, deja fait, divise le nb de paires par 2
-// 2. parallelisme OpenMP sur la boucle externe, gain ~nb_coeurs
-// 3. hierarchie spatiale Barnes-Hut octree : O(N log N) au lieu de O(N^2)
-// 4. precalcul de 1/dist^3 pour eviter la double division
-// 5. structures de donnees cache-friendly SoA au lieu de AoS
+//- symetrie Newton 3, deja fait, divise le nb de paires par 2
+//- parallelisme OpenMP sur la boucle externe, gain ~nb_coeurs
+//- hierarchie spatiale Barnes-Hut octree : O(N log N) au lieu de O(N^2)
+//- precalcul de 1/dist^3 pour eviter la double division
+//- structures de donnees cache-friendly SoA au lieu de AoS
 void demo_simplifications() {
     std::cout << "\n Q10 : comparaison naive vs Newton-3 :" << std::endl;
 
@@ -191,24 +191,24 @@ void demo_simplifications() {
 
 // Simulation principale avec export VTK
 int main() {
-    //Q3 - tests unitaires
+    //tests unitaires
     test_vecteur();
 
     
 
-     //Q6 -creation de l'univers reference
+     //creation de l'univers reference
      demo_univers_k5();
 
-     //Q7 -benchmark insertion
+     //benchmark insertion
      benchmark_insertion();
  
-     //Q8 - benchmark calcul des forces, k=3..5 pour eviter le temps trop long
+     // benchmark calcul des forces, k=3..5 pour eviter le temps trop long
      benchmark_forces();
  
-     //Q9 - verification conservation impulsion
+     // verification conservation impulsion
      verif_conservation_impulsion();
  
-     //Q10 - comparaison naive vs optimise
+     // comparaison naive vs optimise
      demo_simplifications();
     std::cout << "\n Simulation terminee" << std::endl;
     return 0;

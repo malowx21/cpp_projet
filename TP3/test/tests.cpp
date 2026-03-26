@@ -4,7 +4,7 @@
 #include "Univers.hpp"
 #include <cmath>
 
-//Q2 - tests de la classe Vecteur
+//tests de la classe Vecteur
 
 // ./tests        # lance tous les tests
 // ./tests --gtest_filter=VecteurTest.*   # seulement Vecteur
@@ -77,7 +77,7 @@ TEST(VecteurTest, MoinsEgal) {
     EXPECT_EQ(v.getZ(), 0.0);
 }
 
-//Q2 - tests de la classe Particule
+//tests de la classe Particule
 
 TEST(ParticuleTest, ConstructeurDefaut) {
     Particule p;
@@ -98,7 +98,7 @@ TEST(ParticuleTest, Setters) {
     EXPECT_EQ(p.getId(), 42);
 }
 
-//Q2 - tests de la classe Univers
+//tests de la classe Univers
 
 TEST(UniversTest, AjouterParticule) {
     Univers U(3);
