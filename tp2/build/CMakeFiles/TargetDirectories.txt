@@ -1,3 +1,0 @@
-/home/ensimag/cpp_projet/tp2/build/CMakeFiles/exe.dir
-/home/ensimag/cpp_projet/tp2/build/CMakeFiles/edit_cache.dir
-/home/ensimag/cpp_projet/tp2/build/CMakeFiles/rebuild_cache.dir
