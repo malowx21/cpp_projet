@@ -25,10 +25,8 @@ static Particule make_part(int id, double x, double y, double z,
     return p;
 }
 
-// ----------------------------------------------------------------
-//  Force analytique LJ entre deux particules
-//  F_ij = 24*eps/r² * (sigma^6/r^6 - 2*sigma^12/r^12) * r_vec
-// ----------------------------------------------------------------
+
+
 static double force_lj_analytique(double eps, double sig, double r) {
     double sr2  = (sig * sig) / (r * r);
     double sr6  = sr2 * sr2 * sr2;
@@ -36,9 +34,7 @@ static double force_lj_analytique(double eps, double sig, double r) {
     return 24.0 * eps / (r * r) * (sr6 - 2.0 * sr12) * r;
 }
 
-// ----------------------------------------------------------------
-//  Zéro de la force = distance d'équilibre 2^(1/6)*sigma
-// ----------------------------------------------------------------
+
 void test_distance_equilibre() {
     std::cout << "[ForcesLJ] zero de la force a r_eq = 2^(1/6)*sigma\n";
 
@@ -48,14 +44,7 @@ void test_distance_equilibre() {
     check(approx(F, 0.0, 1e-12), "F(r_eq) == 0");
 }
 
-// ----------------------------------------------------------------
-//  Force répulsive si r < r_eq, attractive si r > r_eq
-//  Convention du code : facteur = 24*eps/r² * (sr6 - 2*sr12)
-//  F_ij = rij * facteur, donc Fx sur i pointe dans le sens de rij (j→i n'est pas rij).
-//  rij = pos_j - pos_i  => si j est à droite, rij > 0
-//  Répulsif (trop proches)  : sr12 domine, sr6 - 2*sr12 < 0 => facteur < 0 => Fx sur i < 0 (poussé à gauche)
-//  Attractif (trop éloignés): sr6 domine,  sr6 - 2*sr12 > 0 => facteur > 0 => Fx sur i > 0 (tiré à droite)
-// ----------------------------------------------------------------
+
 void test_signe_force() {
     std::cout << "[ForcesLJ] signe de la force\n";
 
@@ -71,9 +60,7 @@ void test_signe_force() {
     check(F_att > 0, "F > 0 (attractive, facteur positif) pour r > r_eq");
 }
 
-// ----------------------------------------------------------------
-//  Newton 3 : F_ij = -F_ji via calculer_forces_lj()
-// ----------------------------------------------------------------
+
 void test_newton3() {
     std::cout << "[ForcesLJ] Newton 3 (F_ij == -F_ji)\n";
 
@@ -95,9 +82,7 @@ void test_newton3() {
           "Fy0 == -Fy1  (Newton 3 axe y)");
 }
 
-// ----------------------------------------------------------------
-//  Force nulle au-delà du rayon de coupure
-// ----------------------------------------------------------------
+
 void test_rcut() {
     std::cout << "[ForcesLJ] force nulle au-dela de rcut\n";
 
@@ -115,9 +100,7 @@ void test_rcut() {
     check(approx(ps[1].getForce().norm(), 0.0), "force nulle sur p1 (r > rcut)");
 }
 
-// ----------------------------------------------------------------
-//  Valeur analytique de la force pour deux particules alignées sur X
-// ----------------------------------------------------------------
+
 void test_valeur_analytique() {
     std::cout << "[ForcesLJ] valeur analytique de la force\n";
 
@@ -138,7 +121,7 @@ void test_valeur_analytique() {
           "Fx simulee == Fx analytique pour r=1.1*sigma, eps=2");
 }
 
-// ----------------------------------------------------------------
+
 int main() {
     test_distance_equilibre();
     test_signe_force();

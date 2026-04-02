@@ -3,9 +3,7 @@
 #include <cassert>
 #include <iostream>
 
-// ----------------------------------------------------------------
-//  Helpers
-// ----------------------------------------------------------------
+
 static bool approx(double a, double b, double tol = 1e-10) {
     return std::abs(a - b) < tol;
 }
@@ -18,9 +16,7 @@ static void check(bool cond, const char* msg) {
     std::cout << "  OK : " << msg << "\n";
 }
 
-// ----------------------------------------------------------------
-//  Tests
-// ----------------------------------------------------------------
+
 void test_constructeurs() {
     std::cout << "[Vecteur] constructeurs\n";
 
@@ -79,7 +75,7 @@ void test_scalaire() {
           "(2,-4,6) / 2 == (1,-2,3)");
 }
 
-// ----------------------------------------------------------------
+
 int main() {
     test_constructeurs();
     test_norme();

@@ -14,7 +14,7 @@ static void check(bool cond, const char* msg) {
     std::cout << "  OK : " << msg << "\n";
 }
 
-// ----------------------------------------------------------------
+
 void test_defaut() {
     std::cout << "[Particule] constructeur par defaut\n";
 
@@ -56,7 +56,7 @@ void test_force_mutable() {
     check(approx(p.getForce().getX(), 3.0), "getForce() non-const += fonctionne");
 }
 
-// ----------------------------------------------------------------
+
 int main() {
     test_defaut();
     test_setters_getters();

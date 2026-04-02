@@ -26,9 +26,7 @@ static Particule make_particule(int id, double x, double y, double z,
     return p;
 }
 
-// ----------------------------------------------------------------
-//  Dimensions de la grille
-// ----------------------------------------------------------------
+
 void test_grille_dimensions() {
     std::cout << "[Univers] dimensions de la grille\n";
 
@@ -45,9 +43,7 @@ void test_grille_dimensions() {
     check(idx_max == 15, "coin max -> cellule 15  (4x4-1)");
 }
 
-// ----------------------------------------------------------------
-//  Affectation d'une particule à la bonne cellule
-// ----------------------------------------------------------------
+
 void test_affectation_cellule() {
     std::cout << "[Univers] affectation cellule\n";
 
@@ -72,9 +68,7 @@ void test_affectation_cellule() {
     check(contient_0, "cellule 0 est dans ses propres voisins");
 }
 
-// ----------------------------------------------------------------
-//  Nombre de voisins : coin vs centre vs bord (grille 3x3x1)
-// ----------------------------------------------------------------
+
 void test_voisins() {
     std::cout << "[Univers] voisins de cellules\n";
 
@@ -94,9 +88,7 @@ void test_voisins() {
     check((int)v_bord.size() == 6, "cellule bord milieu: 6 voisins");
 }
 
-// ----------------------------------------------------------------
-//  Conservation de la quantité de mouvement après avancer()
-// ----------------------------------------------------------------
+
 void test_conservation_qm() {
     std::cout << "[Univers] conservation de la quantite de mouvement\n";
 
@@ -127,9 +119,7 @@ void test_conservation_qm() {
           "QM conservee apres 10 pas (Newton 3)");
 }
 
-// ----------------------------------------------------------------
-//  Ajout de particules
-// ----------------------------------------------------------------
+
 void test_ajout_particules() {
     std::cout << "[Univers] ajout de particules\n";
 
@@ -141,7 +131,6 @@ void test_ajout_particules() {
     check((int)U.get_particules().size() == 2, "2 particules apres 2 ajouts");
 }
 
-// ----------------------------------------------------------------
 int main() {
     test_grille_dimensions();
     test_affectation_cellule();
