@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Utilisateur (Scientifique)" as User
+actor "Développeur (Testeur)" as Dev
+actor "ParaView (Logiciel Externe)" as PV
+
+rectangle "Système : Simulateur Particulaire" {
+  
+  usecase "Lancer la simulation" as UC_Sim
+  usecase "Charger paramètres (dt, RCut, EPS)" as UC_Load
+  usecase "Calculer forces (LJ)" as UC_Force
+  usecase "Sauvegarder VTK" as UC_VTK
+  
+  usecase "Exécuter tests unitaires" as UC_Test
+  usecase "Vérifier conservation énergie" as UC_Test1
+  usecase "Vérifier voisinage (Grille)" as UC_Test2
+  
+  ' Relations Utilisateur
+  User --> UC_Sim
+  UC_Sim ..> UC_Load : <<include>>
+  UC_Sim <.. UC_VTK : <<extend>>
+  UC_VTK -- PV : Produit fichier
+  UC_Sim ..> UC_Force : <<include>>
+
+  ' Relations Développeur
+  Dev --> UC_Test
+  UC_Test <|-- UC_Test1
+  UC_Test <|-- UC_Test2
+}
+@enduml
