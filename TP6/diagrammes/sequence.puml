@@ -1,0 +1,51 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor "Utilisateur" as U
+participant "main (demo)" as Main
+participant "Univers" as Univ
+participant "Cellule" as Cell
+participant "Particule" as Part
+
+U -> Main : Lancer simulation
+activate Main
+
+Main -> Univ : avancer(dt)
+activate Univ
+
+loop Pour chaque pas de temps
+    note over Univ : Intégration (Verlet)
+    
+    Univ -> Part : updatePosition()
+    activate Part
+    Part --> Univ : nouvelle position
+    deactivate Part
+    
+    Univ -> Univ : mettre_a_jour_cellules()
+    activate Univ
+    Univ -> Cell : vider()
+    Univ -> Cell : addParticule(id)
+    deactivate Univ
+    
+    Univ -> Univ : calculer_forces_lj()
+    activate Univ
+    loop Pour chaque cellule
+        Univ -> Cell : getParticules()
+        Cell --> Univ : liste IDs
+        Univ -> Part : getForce()
+        Univ -> Part : setForce(f)
+    end
+    deactivate Univ
+    
+    Univ -> Part : updateVitesse()
+end
+
+Univ -> Main : Simulation terminée
+deactivate Univ
+
+Main -> Main : ecrire_vtk()
+note right : Génération fichier pour Paraview
+Main --> U : Simulation visualisable
+deactivate Main
+
+@enduml
