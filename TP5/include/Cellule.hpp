@@ -38,6 +38,20 @@ public:
         voisins.fill(-1);
     }
 
+
+    /**
+     * @brief Constructeur par copie 
+     */
+    Cellule(const Cellule& autre) = default;
+
+    /**
+     * @brief Opérateur d'affectation par copie.
+     * @param autre Cellule source .
+     * @return référence vers cette cellule modifiée. 
+     */
+    Cellule& operator=(const Cellule& autre) = default;
+
+
     /**
      * @brief Retourne la liste des identifiants des particules dans la cellule.
      * @return Référence constante vers le vecteur d'identifiants.
@@ -135,6 +149,11 @@ public:
     bool est_vide() const { 
         return particules_ids.empty();
     }
+
+    /**
+     * @brief Destructeur 
+     */
+    ~Cellule() = default;
 };
 
 #endif

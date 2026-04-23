@@ -2,8 +2,21 @@
 #include <cmath>
 
 //Constructeurs
-Vecteur::Vecteur() : x(0), y(0), z(0) {}
 Vecteur::Vecteur(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
+
+
+Vecteur::Vecteur(const Vecteur& autre): x(autre.x), y(autre.y), z(autre.z) {}
+
+
+Vecteur& Vecteur::operator=(const Vecteur& autre){
+    if (this != &autre){
+        x = autre.x;
+        y = autre.y;
+        z = autre.z;
+    }
+    return *this;
+}
+
 
 //Norme
 double Vecteur::norm() const {
@@ -42,3 +55,6 @@ Vecteur& Vecteur::operator-=(const Vecteur& v) {
     z -= v.z;
     return *this;
 }
+
+// Destructeur
+Vecteur::~Vecteur(){}

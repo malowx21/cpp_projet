@@ -34,6 +34,19 @@ public:
     Particule();
 
     /**
+     * @brief Constructeur de copie.
+     * @param autre la particule à copier.
+     */
+    Particule(const Particule& autre);
+
+    /**
+     * @brief Opérateur d'affectation par copie.
+     * @param autre la paticule source.
+     * @return Référence vers cette particule modifiée.
+     */
+    Particule& operator=(const Particule& autre);
+
+    /**
      * @brief Retourne la position de la particule lecture seule.
      * @return Référence constante vers le vecteur position.
      */
@@ -141,6 +154,11 @@ public:
      * @brief Affiche la position de la particule sur la sortie standard.
      */
     void AffichePosition() const;
+
+    /**
+     * @brief Destructeur 
+     */
+    ~Particule() ;
 };
 
 #endif

@@ -23,19 +23,26 @@ private:
 
 public:
     /**
-     * @brief Constructeur par défaut.
-     *
-     * Initialise toutes les composantes à 0.
-     */
-    Vecteur();
-
-    /**
      * @brief Constructeur avec initialisation des composantes.
      * @param x_ Composante x.
      * @param y_ Composante y.
      * @param z_ Composante z.
      */
-    Vecteur(double x_, double y_, double z_);
+    Vecteur(double x_=0.0, double y_=0.0, double z_=0.0);
+
+
+    /**
+     * @brief Constructeur de copie.
+     * @param autre Le vecteur à copier.
+     */
+    Vecteur(const Vecteur& autre);
+
+    /**
+     * @brief Opérateur d'affectation par copie.
+     * @param autre Le vecteur source.
+     * @return Référence vers ce vecteur modifié.
+     */
+    Vecteur& operator=(const Vecteur& autre);
 
     /**
      * @brief Retourne la composante x.
@@ -132,6 +139,9 @@ public:
      * @return Référence vers ce vecteur modifié.
      */
     Vecteur& operator-=(const Vecteur& v);
+
+    // Destructeur
+    ~Vecteur();
 };
 
 #endif
