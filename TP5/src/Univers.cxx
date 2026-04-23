@@ -75,17 +75,21 @@ void Univers::mettre_a_jour_cellules() {
     // Vider toutes les cellules 
     for (auto& c : cellules) c.vider();
     // Remplir avec le nouveau état des particules
-    for (size_t i = 0; i < particules.size(); i++)
-        cellules[get_cellule_index(particules[i].getPosition())].addParticule(i);
+    for (size_t i = 0; i < particules.size(); i++){
+        const Particule& p = particules[i];
+        cellules[get_cellule_index(p.getPosition())].addParticule(i);
+    }
 }
 
 // Obtenir les voisins d'une cellule selon son indice
 std::vector<int> Univers::get_voisins(int cellule_idx) const {
     std::vector<int> res;
     const Cellule& c = cellules[cellule_idx];
+    const std::array<int, 27>& voisins = c.getVoisins();
+    int N = c.getNbVoisins();
     // Boucle sur le nombre de voisin de la cellule
-    for (int n = 0; n < c.getNbVoisins(); ++n)
-        res.push_back(c.getVoisins()[n]);
+    for (int n = 0; n < N; ++n)
+        res.push_back(voisins[n]);
     return res;
 }
 
@@ -104,27 +108,36 @@ void Univers::calculer_forces_lj() {
         if (cellules[ic].est_vide()) continue;
         const Cellule& cell_i = cellules[ic];
         // Boucle sur les voisns de chaque cellule
-        for (int n = 0; n < cell_i.getNbVoisins(); ++n) {
-            int jc = cell_i.getVoisins()[n];
+        const std::array<int, 27>& voisins_i = cell_i.getVoisins();
+        int nb_voisins_i = cell_i.getNbVoisins();
+        for (int n = 0; n < nb_voisins_i; ++n) {
+            int jc = voisins_i[n];
             if (jc < (int)ic) continue;
             const Cellule& cell_j = cellules[jc];
             if (cell_j.est_vide()) continue;
 
             for (int i : cell_i.getParticules()) {
+                // référence locale évite particules[i] répété
+                Particule& pi = particules[i];
+                const Vecteur& posi = pi.getPosition();
+
                 for (int j : cell_j.getParticules()) {
-                    if (jc==(int)ic && i >= j) continue;
-                    Vecteur rij = particules[j].getPosition() - particules[i].getPosition();
+                    if (jc == (int)ic && i >= j) continue;
+                    Particule& pj = particules[j]; 
+
+                    Vecteur rij = pj.getPosition() - posi;
                     double rx = rij.getX(), ry = rij.getY(), rz = rij.getZ();
                     double r2 = rx*rx + ry*ry + rz*rz;
                     if (r2 < 1e-10 || r2 > rcut2) continue;
-                    double sr2    = sig2 / r2;
-                    double sr6    = sr2 * sr2 * sr2;
-                    double sr12   = sr6 * sr6;
+
+                    double sr2 = sig2 / r2;
+                    double sr6 = sr2 * sr2 * sr2;
+                    double sr12 = sr6 * sr6;
                     double facteur = eps24 / r2 * (sr6 - 2.0 * sr12);
-                    // Calcul de la force  (Lennard-Jones) en la cellule i et sa cellule voisine j 
+
                     Vecteur Fij = rij * facteur;
-                    particules[i].getForce() += Fij;
-                    particules[j].getForce() = particules[j].getForce() - Fij;
+                    pi.getForce() += Fij;
+                    pj.getForce() -= Fij;
                 }
             }
         }
@@ -133,6 +146,9 @@ void Univers::calculer_forces_lj() {
 
 //  Avancement de l'état de la grille dans le temps de dt 
 void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
+    double dt_1 = 0.5* dt ;
+    double dt_2 = (0.5 * dt * dt);
+
     if (t >= t_end) return;
     int N = particules.size();
 
@@ -144,10 +160,12 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
     }
 
     // Mise à jour des positions avec les nouvelles forces
+
     for (int i = 0; i < N; i++) {
-        Vecteur acc = particules[i].getForce() / particules[i].getMasse();
-        particules[i].getPosition() += particules[i].getVitesse() * dt
-                                     + acc * (0.5 * dt * dt);
+        Particule& p = particules[i];
+        Vecteur acc = p.getForce() / p.getMasse();
+        p.getPosition() += p.getVitesse() * dt
+                                     + acc * dt_2;
     }
 
     // Mise à jour des cellules apres deplacement
@@ -165,9 +183,10 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite) {
 
     // mise a jour des vitesses 
     for (int i = 0; i < N; i++) {
-        Vecteur acc_old = forces_old[i] / particules[i].getMasse();
-        Vecteur acc_new = particules[i].getForce() / particules[i].getMasse();
-        particules[i].getVitesse() += (acc_old + acc_new) * (0.5 * dt);
+        Particule& p = particules[i];
+        Vecteur acc_old = forces_old[i] / p.getMasse();
+        Vecteur acc_new = p.getForce() / p.getMasse();
+        p.getVitesse() += (acc_old + acc_new) * dt_1;
     }
 
     t += dt;

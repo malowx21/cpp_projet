@@ -24,13 +24,6 @@ double Vecteur::norm() const {
 }
 
 // Opérations arithmétiques 
-Vecteur Vecteur::operator+(const Vecteur& v) const {
-    return Vecteur(x + v.x, y + v.y, z + v.z);
-}
-
-Vecteur Vecteur::operator-(const Vecteur& v) const {
-    return Vecteur(x - v.x, y - v.y, z - v.z);
-}
 
 Vecteur Vecteur::operator*(double a) const {
     return Vecteur(a*x, a*y, a*z);
@@ -58,3 +51,16 @@ Vecteur& Vecteur::operator-=(const Vecteur& v) {
 
 // Destructeur
 Vecteur::~Vecteur(){}
+
+
+Vecteur operator+(const Vecteur& a , const Vecteur& b){
+    Vecteur c(a);
+    c+=b;
+    return c;
+}
+
+Vecteur operator-(const Vecteur& a , const Vecteur& b){
+    Vecteur c(a);
+    c-=b;
+    return c;
+}

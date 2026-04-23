@@ -98,41 +98,28 @@ public:
      */
     double norm() const;
 
-    /**
-     * @brief Addition de deux vecteurs.
-     * @param v Le vecteur à additionner.
-     * @return Un nouveau vecteur résultant de l'addition.
-     */
-    Vecteur operator+(const Vecteur& v) const;
-
-    /**
-     * @brief Soustraction de deux vecteurs.
-     * @param v Le vecteur à soustraire.
-     * @return Un nouveau vecteur résultant de la soustraction.
-     */
-    Vecteur operator-(const Vecteur& v) const;
-
+    
     /**
      * @brief Multiplication par un scalaire.
      * @param a Le scalaire multiplicateur.
      * @return Un nouveau vecteur mis à l'échelle.
      */
     Vecteur operator*(double a) const;
-
+    
     /**
      * @brief Division par un scalaire.
      * @param a Le scalaire diviseur (ne doit pas être nul).
      * @return Un nouveau vecteur divisé par a.
      */
     Vecteur operator/(double a) const;
-
+    
     /**
      * @brief Addition en place.
      * @param v Le vecteur à additionner.
      * @return Référence vers ce vecteur modifié.
      */
     Vecteur& operator+=(const Vecteur& v);
-
+    
     /**
      * @brief Soustraction en place.
      * @param v Le vecteur à soustraire.
@@ -143,5 +130,22 @@ public:
     // Destructeur
     ~Vecteur();
 };
+
+/**
+ * @brief Addition de deux vecteurs.
+ * @param a Le premier vecteur de l'addition.
+ * @param b Le deuxième vecteur de l'addition.
+ * @return Un nouveau vecteur résultant de l'addition.
+ */
+Vecteur operator+(const Vecteur& a, const Vecteur& b);
+
+/**
+ * @brief Soustraction de deux vecteurs.
+ * @param a le premier vecteur de la soustraction .
+ * @param b le deuxième vecteur de la soustraction .
+ * @return Un nouveau vecteur résultant de la soustraction.
+ */
+Vecteur operator-(const Vecteur& a, const Vecteur& b);
+
 
 #endif
