@@ -49,6 +49,11 @@ Vecteur& Vecteur::operator-=(const Vecteur& v) {
     return *this;
 }
 
+std::ostream& operator<<(std::ostream& os, const Vecteur& v) {
+    os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return os;
+}
+
 // Destructeur
 Vecteur::~Vecteur(){}
 
@@ -64,3 +69,4 @@ Vecteur operator-(const Vecteur& a , const Vecteur& b){
     c-=b;
     return c;
 }
+

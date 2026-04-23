@@ -6,6 +6,8 @@
 #ifndef VECTEUR_HPP
 #define VECTEUR_HPP
 
+#include <ostream>  
+
 /**
  * @class Vecteur
  * @brief Représente un vecteur à trois composantes (x, y, z).
@@ -126,6 +128,9 @@ public:
      * @return Référence vers ce vecteur modifié.
      */
     Vecteur& operator-=(const Vecteur& v);
+
+
+    friend std::ostream& operator<<(std::ostream& os, const Vecteur& v);
 
     // Destructeur
     ~Vecteur();

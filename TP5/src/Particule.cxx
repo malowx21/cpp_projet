@@ -18,10 +18,12 @@ Particule& Particule::operator=(const Particule& autre){
     return *this;
 }
 
-// Affichage de l'état de la particule 
-void Particule::AffichePosition() const {
-    std::cout << id << " : " << position.getX() << ", "
-    << position.getY() << ", " << position.getZ() << "\n";
+
+std::ostream& operator<<(std::ostream& os, const Particule& p) {
+    os << "Particule " << p.id << " , position : " 
+    << p.position << " , vitesse  : " << p.vitesse 
+    << ", force : " << p.force << " , masse    : " << p.m;
+    return os;
 }
 
 //Destructeur 

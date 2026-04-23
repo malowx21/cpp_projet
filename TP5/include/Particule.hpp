@@ -5,6 +5,8 @@
 
 #ifndef PARTICULE_HPP
 #define PARTICULE_HPP
+
+
 #include "Vecteur.hpp"
 
 /**
@@ -153,7 +155,7 @@ public:
     /**
      * @brief Affiche la position de la particule sur la sortie standard.
      */
-    void AffichePosition() const;
+    friend std::ostream& operator<<(std::ostream& os, const Particule& p);
 
     /**
      * @brief Destructeur 
