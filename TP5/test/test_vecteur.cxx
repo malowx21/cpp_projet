@@ -2,14 +2,8 @@
 #include "Vecteur.hpp"
 #include <cmath>
 
-//  UTILITAIRE 
-
-static bool approx(double a, double b, double tol = 1e-10) {
-    return std::abs(a - b) < tol;
-}
 
 //  TESTS 
-
 // [Vecteur] constructeurs
 TEST(VecteurTest, Constructeurs) {
     Vecteur v0;

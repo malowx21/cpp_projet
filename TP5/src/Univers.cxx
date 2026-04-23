@@ -112,7 +112,7 @@ void Univers::calculer_forces_lj() {
 
             for (int i : cell_i.getParticules()) {
                 for (int j : cell_j.getParticules()) {
-                    if (ic == jc && i >= j) continue;
+                    if (jc==(int)ic && i >= j) continue;
                     Vecteur rij = particules[j].getPosition() - particules[i].getPosition();
                     double rx = rij.getX(), ry = rij.getY(), rz = rij.getZ();
                     double r2 = rx*rx + ry*ry + rz*rz;

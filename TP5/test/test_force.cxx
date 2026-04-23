@@ -3,11 +3,6 @@
 #include <cmath>
 
 //  UTILITAIRES 
-
-static bool approx(double a, double b, double tol = 1e-8) {
-    return std::abs(a - b) < tol;
-}
-
 static Particule make_part(int id, double x, double y, double z,
                            double masse = 1.0) {
     Particule p;

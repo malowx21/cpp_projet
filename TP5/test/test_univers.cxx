@@ -5,10 +5,6 @@
 
 //  UTILITAIRE 
 
-static bool approx(double a, double b, double tol = 1e-9) {
-    return std::abs(a - b) < tol;
-}
-
 static Particule make_particule(int id, double x, double y, double z,
                                 double masse = 1.0) {
     Particule p;
