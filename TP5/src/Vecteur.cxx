@@ -30,6 +30,8 @@ Vecteur Vecteur::operator*(double a) const {
 }
 
 Vecteur Vecteur::operator/(double a) const {
+    if (std::abs(a) < 1e-12)
+        throw std::runtime_error("Division by zero");
     return Vecteur(x/a, y/a, z/a);
 }
 
