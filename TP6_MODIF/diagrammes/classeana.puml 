@@ -1,0 +1,52 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "Core Physics" {
+    class Vecteur {
+        - double x, y, z
+        + Vecteur(double, double, double)
+        + double norm()
+        + Vecteur operator+(Vecteur)
+    }
+
+    class Particule {
+        - Vecteur position
+        - Vecteur vitesse
+        - Vecteur force
+        - double m
+        - int id
+        + void AffichePosition()
+        + void updatePosition()
+    }
+}
+
+package "Spatial Optimization" {
+    class Cellule {
+        - std::vector<int> particules_ids
+        - Vecteur centre
+        - std::array<int, 27> voisins
+        + void addParticule(int id)
+        + void vider()
+        + int getIndex()
+    }
+}
+
+package "Orchestrator" {
+    class Univers {
+        - std::vector<Particule> particules
+        - std::vector<Cellule> cellules
+        - double rcut, epsilon, sigma
+        + void avancer(double dt)
+        + void calculer_forces_lj()
+        + void mettre_a_jour_cellules()
+        + void sauvegarderVTK()
+    }
+}
+
+' Relations
+Univers *-- "1..n" Particule : gère
+Univers *-- "1..n" Cellule : organise
+Cellule o-- Particule : référence (via IDs)
+Particule *-- "3" Vecteur : possède
+Cellule *-- "1" Vecteur : centre
+@enduml

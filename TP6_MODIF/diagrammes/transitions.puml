@@ -1,0 +1,45 @@
+@startuml
+scale 1.5
+skinparam state {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    FontName Arial
+}
+
+[*] --> Initialisation
+
+state Initialisation {
+    [*] --> AllocationMemoire
+    AllocationMemoire --> SetupGrille : calcul n_cubes
+    SetupGrille --> InitParticules : placement initial
+}
+
+Initialisation --> Simulation : demarrer()
+
+state Simulation {
+    state VerifierCondition <<choice>>
+    
+    [*] --> VerifierCondition
+    
+    state EtapeCalcul {
+        [*] --> CalculForces
+        CalculForces --> UpdatePosition : Intégration (Verlet)
+        UpdatePosition --> UpdateGrille : maillage spatial
+    }
+    
+    VerifierCondition --> EtapeCalcul : t < T_END
+    EtapeCalcul --> VerifierCondition
+    VerifierCondition --> [*] : t >= T_END
+}
+
+state SauvegardeVTK {
+    [*] --> EcritureFichier
+    EcritureFichier --> Fermeture : flush
+}
+
+Simulation --> SauvegardeVTK : step % SAVE_EVERY == 0
+SauvegardeVTK --> Simulation : retour boucle
+
+Simulation --> [*] : Simulation Terminée
+
+@enduml
