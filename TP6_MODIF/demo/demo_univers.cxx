@@ -149,7 +149,7 @@ int main() {
 
     // BALL : N1 ≈ 395 particules, vitesse v=(0,10) vers le bas
     create_disk(U,
-                125.0, 140.0,   // centré dans le domaine
+                125.0, 90.0,   // centré dans le domaine
                 11.0,           // rayon ≈ 11 pour ~395 particules avec spacing=1.1
                 spacing,
                 Vecteur(0, 10, 0),
