@@ -29,61 +29,31 @@ void Univers::appliquer_conditions_limites() {
         Vecteur& vit = p.getVitesse();
 
         //  X direction 
+        const double eps_wall = 1e-6;
+
+        // LEFT
         if (pos.getX() < 0) {
-
-            if (type_border == 0) { // REFLECTIVE
-                pos.setX(0);
-                vit.setX(-vit.getX());
-            }
-            else if (type_border == 1) { // PERIODIC
-                pos.setX(pos.getX() + L[0]);
-            }
-            else if (type_border == 2) { // ABSORBING
-                p.setMasse(0); // mark for deletion
-            }
-        }
-        else if (pos.getX() > L[0]) {
-
-            if (type_border == 0) { // REFLECTIVE
-                pos.setX(L[0]);
-                vit.setX(-vit.getX());
-            }
-            else if (type_border == 1) { // PERIODIC
-                pos.setX(pos.getX() - L[0]);
-            }
-            else if (type_border == 2) {
-                p.setMasse(0);
-            }
+            pos.setX(eps_wall);
+            vit.setX( std::abs(vit.getX()));
         }
 
-        //  Y direction 
+        // RIGHT
+        if (pos.getX() > L[0]) {
+            pos.setX(L[0] - eps_wall);
+            vit.setX(- std::abs(vit.getX()));
+        }
+
+        // BOTTOM
         if (pos.getY() < 0) {
-
-            if (type_border == 0) {
-                pos.setY(0);
-                vit.setY(-vit.getY());
-            }
-            else if (type_border == 1) {
-                pos.setY(pos.getY() + L[1]);
-            }
-            else if (type_border == 2) {
-                p.setMasse(0);
-            }
-        }
-        else if (pos.getY() > L[1]) {
-
-            if (type_border == 0) {
-                pos.setY(L[1]);
-                vit.setY(-vit.getY());
-            }
-            else if (type_border == 1) {
-                pos.setY(pos.getY() - L[1]);
-            }
-            else if (type_border == 2) {
-                p.setMasse(0);
-            }
+            pos.setY(eps_wall);
+            vit.setY( std::abs(vit.getY()));
         }
 
+        // TOP
+        if (pos.getY() > L[1]) {
+            pos.setY(L[1] - eps_wall);
+            vit.setY(-std::abs(vit.getY()));
+        }
         //  Z direction 
         if (pos.getZ() < 0) {
 
@@ -210,23 +180,26 @@ void Univers::ajouter_forces_parois() {
 
         // Example: LEFT wall
         if (d_left < A_cut) {
-            double A = d_left;
-            double ratio = sigma / (2*A);
-            double r2 = ratio * ratio;
-            double r6 = r2 * r2 * r2;
-            double f = -24 * epsilon / (2*A) * r6 * (1 - 2*r6);
+            double A = std::max(d_left, 0.1 * sigma);
+            double invA = 1.0 / A;
+            double sr = sigma * invA;
+            double sr2 = sr * sr;
+            double sr6 = sr2 * sr2 * sr2;
+
+            double f =  -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
 
             force.setX(force.getX() + f);
         }
 
         // RIGHT wall
         if (d_right < A_cut) {
-            double A = d_right;
-            double ratio = sigma / (2*A);
-            double r2 = ratio * ratio;
-            double r6 = r2 * r2 * r2;
+            double A = std::max(d_right, 0.1 * sigma);
+            double invA = 1.0 / A;
+            double sr = sigma * invA;
+            double sr2 = sr * sr;
+            double sr6 = sr2 * sr2 * sr2;
 
-            double f = 24 * epsilon / (2*A) * r6 * (1 - 2*r6);
+            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
 
             force.setX(force.getX() - f);
         }
@@ -234,21 +207,25 @@ void Univers::ajouter_forces_parois() {
         // SAME for Y walls...
         // BOTTOM
         if (d_bottom < A_cut) {
-            double A = d_bottom;
-            double ratio = sigma / (2*A);
-            double r2 = ratio * ratio;
-            double r6 = r2 * r2 * r2;
-            double f = -24 * epsilon / (2*A) * r6 * (1 - 2*r6);
+            double A = std::max(d_bottom, 0.1 * sigma);
+            double invA = 1.0 / A;
+            double sr = sigma * invA;
+            double sr2 = sr * sr;
+            double sr6 = sr2 * sr2 * sr2;
+
+            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
             force.setY(force.getY() + f);
         }
 
         // TOP
         if (d_top < A_cut) {
-            double A = d_top;
-            double ratio = sigma / (2*A);
-            double r2 = ratio * ratio;
-            double r6 = r2 * r2 * r2;
-            double f = 24 * epsilon / (2*A) * r6 * (1 - 2*r6);
+            double A = std::max(d_top, 0.1 * sigma);
+            double invA = 1.0 / A;
+            double sr = sigma * invA;
+            double sr2 = sr * sr;
+            double sr6 = sr2 * sr2 * sr2;
+
+            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
             force.setY(force.getY() - f);
         }
         p.setForce(force);
@@ -302,8 +279,9 @@ void Univers::calculer_forces_lj() {
                     double rz = posj.getZ() - posi.getZ();
 
                     double r2 = rx*rx + ry*ry + rz*rz;
-                    if (r2 < 1e-12 || r2 > rcut2) continue;
-
+                    
+                    if (r2 < 0.25 * sigma * sigma) r2 = 0.25 * sigma * sigma;
+                    if (r2 >rcut2) continue;
                     
 
                     double inv_r2 = 1.0 / r2;
@@ -329,7 +307,7 @@ double Univers::energie_cinetique() const {
     double Ec = 0.0;
     for (const auto& p : particules) {
         double v2 = p.getVitesse().norm();
-        Ec += 0.5 * p.getMasse() * v2;
+        Ec += 0.5 * p.getMasse() * v2 * v2;
     }
     return Ec;
 }

@@ -39,7 +39,7 @@ void write_vtk(const Univers& U, int frame) {
     f << "# vtk DataFile Version 3.0\n";
     f << "Particles\nASCII\nDATASET POLYDATA\n";
     f << "POINTS " << N << " double\n";
-
+    
     for (const auto& p : P) {
         f << p.getPosition().getX() << " "
           << p.getPosition().getY() << " "
@@ -83,7 +83,11 @@ void create_sea(Univers& U, double width, double height,
 
             Particule p;
             p.setPosition(Vecteur(x, y, 0));
-            p.setVitesse(Vecteur(0, 0, 0));
+            double v0 = 0.5;
+            p.setVitesse(Vecteur(
+                v0 * (rand() / double(RAND_MAX) - 0.5),
+                v0 * (rand() / double(RAND_MAX) - 0.5),
+                0));
             p.setForce(Vecteur(0,0,0));
             p.setMasse(1.0);
             p.setId(id++);
@@ -142,17 +146,17 @@ int main() {
 
     int id = 0;
 
-    double spacing = 1.1 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
+    double spacing = 1.008 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
 
-    // SEA : N2 ≈ 17227 particules en bas
+    // SEA : N2 approximativement 17227 particules en bas
     create_sea(U, 250.0, 70.0, spacing, id);
 
-    // BALL : N1 ≈ 395 particules, vitesse v=(0,10) vers le bas
+    // BALL : N1 approximativement 395 particules, vitesse v=(0,10) vers le bas
     create_disk(U,
-                125.0, 90.0,   // centré dans le domaine
+                125.0, 95.0,   // centré dans le domaine
                 11.0,           // rayon ≈ 11 pour ~395 particules avec spacing=1.1
                 spacing,
-                Vecteur(0, 10, 0),
+                Vecteur(0, -10, 0),
                 id);
 
     std::cout << "Particles: " << id << "\n";
