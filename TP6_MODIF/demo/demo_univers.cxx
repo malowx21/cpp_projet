@@ -23,32 +23,33 @@ const double G = -12.0;
 const double ECIBLE = 0.005 * (N1 + N2);
 
 // -------------------- VTK EXPORT --------------------
-void write_vtk(const Univers& U, int frame) {
+void write_vtk(const Univers& U, int frame, int N_sea) {
 
     std::string filename = "vtk_output/frame_" + std::to_string(frame) + ".vtk";
     std::ofstream f(filename);
 
-    if (!f.is_open()) {
-        std::cerr << "ERROR: cannot open " << filename << "\n";
-        return;
-    }
-
     const auto& P = U.get_particules();
-    int N = P.size();  // taille réelle à l'instant de l'écriture
+    int N = P.size();
 
     f << "# vtk DataFile Version 3.0\n";
     f << "Particles\nASCII\nDATASET POLYDATA\n";
     f << "POINTS " << N << " double\n";
-    
-    for (const auto& p : P) {
+
+    for (const auto& p : P)
         f << p.getPosition().getX() << " "
           << p.getPosition().getY() << " "
           << p.getPosition().getZ() << "\n";
-    }
 
     f << "VERTICES " << N << " " << 2*N << "\n";
     for (int i = 0; i < N; i++)
         f << "1 " << i << "\n";
+
+    // Champ scalaire : 0 = mer, 1 = disque
+    f << "POINT_DATA " << N << "\n";
+    f << "SCALARS group int 1\n";
+    f << "LOOKUP_TABLE default\n";
+    for (int i = 0; i < N; i++)
+        f << (i < N_sea ? 0 : 1) << "\n";
 
     f.close();
 }
@@ -68,7 +69,7 @@ void create_disk(Univers& U, double cx, double cy,
                 p.setPosition(Vecteur(x, y, 0));
                 p.setVitesse(v0);
                 p.setForce(Vecteur(0,0,0));
-                p.setMasse(1.0);
+                p.setMasse(3.0);
                 p.setId(id++);
                 U.ajouter_particule(p);
             }
@@ -84,10 +85,11 @@ void create_sea(Univers& U, double width, double height,
             Particule p;
             p.setPosition(Vecteur(x, y, 0));
             double v0 = 0.5;
-            p.setVitesse(Vecteur(
-                v0 * (rand() / double(RAND_MAX) - 0.5),
-                v0 * (rand() / double(RAND_MAX) - 0.5),
-                0));
+            // p.setVitesse(Vecteur(
+            //     v0 * (rand() / double(RAND_MAX) - 0.5),
+            //     v0 * (rand() / double(RAND_MAX) - 0.5),
+            //     0));
+            p.setVitesse(Vecteur(0,0,0));
             p.setForce(Vecteur(0,0,0));
             p.setMasse(1.0);
             p.setId(id++);
@@ -146,14 +148,15 @@ int main() {
 
     int id = 0;
 
-    double spacing = 1.008 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
+    // double spacing = 1.008 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
+    double spacing = 1.2 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
 
     // SEA : N2 approximativement 17227 particules en bas
     create_sea(U, 250.0, 70.0, spacing, id);
-
+    int N_sea = id;
     // BALL : N1 approximativement 395 particules, vitesse v=(0,10) vers le bas
     create_disk(U,
-                125.0, 95.0,   // centré dans le domaine
+                125.0, 150.0,   // centré dans le domaine
                 11.0,           // rayon ≈ 11 pour ~395 particules avec spacing=1.1
                 spacing,
                 Vecteur(0, -10, 0),
@@ -173,7 +176,7 @@ int main() {
             U.rescaler_vitesses(ECIBLE);
 
         if (step > 100 && step % 50 == 0)
-            write_vtk(U, frame++);
+            write_vtk(U, frame++,N_sea);
 
         step++;
     }
