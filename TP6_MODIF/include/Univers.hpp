@@ -171,5 +171,6 @@ public:
     void ajouter_gravite(double g);
     double energie_cinetique() const;
     void rescaler_vitesses(double Ec_cible);
+    void check_validity();
 };
 #endif

@@ -396,3 +396,41 @@ void Univers::afficher_stats_grille() const {
               << " (" << (100.0 * occupees / cellules.size()) << "%)\n";
     std::cout << "Max particules/cellule: " << max_p << "\n";
 }
+
+void Univers::check_validity() {
+    for (const auto& p : particules) {
+        auto pos = p.getPosition();
+
+        if (!std::isfinite(pos.getX()) ||
+            !std::isfinite(pos.getY()) ||
+            !std::isfinite(pos.getZ())) {
+
+            throw std::runtime_error("Invalid particle position");
+        }
+    }
+
+    double Ec = energie_cinetique();
+    if (!std::isfinite(Ec)) {
+        throw std::runtime_error("Energy is not finite");
+    }
+}
+// Le mécanisme de gestion des erreurs mis en place présente plusieurs avantages.
+// Tout d’abord, il permet de détecter rapidement des anomalies numériques telles
+// que des valeurs non définies (NaN) ou infinies dans les positions, les vitesses
+// ou l’énergie cinétique. Cela évite la propagation silencieuse d’erreurs dans la simulation
+// et facilite grandement le débogage. De plus, l’utilisation d’exceptions permet
+// d’interrompre proprement l’exécution du programme en cas de problème grave,
+// garantissant ainsi une meilleure robustesse du code.
+
+// Cependant, ce mécanisme possède également certaines limites. D’une part,
+// les vérifications ajoutent un coût de calcul supplémentaire,
+// en particulier si elles sont effectuées à chaque itération. D’autre part, 
+// il s’agit d’un mécanisme purement détectif : il identifie les erreurs
+// mais ne propose pas de stratégie pour les corriger automatiquement.
+// Par ailleurs, le choix des seuils (par exemple pour éviter des distances
+// trop faibles) reste arbitraire et peut influencer le comportement de la simulation.
+
+// Enfin, on peut compléter ce dispositif par un suivi de grandeurs physiques globales,
+// comme l’énergie cinétique ou l’énergie totale, qui constitue un indicateur pertinent
+// de la stabilité numérique du système. Cela permet de détecter des dérives sans
+// nécessairement interrompre immédiatement la simulation

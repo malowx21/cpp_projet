@@ -149,7 +149,7 @@ int main() {
     int id = 0;
 
     // double spacing = 1.008 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
-    double spacing = 1.2 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
+    double spacing = 1.00776 * SIGMA; // espacement pour obtenir N2≈17227 sur 250×70
 
     // SEA : N2 approximativement 17227 particules en bas
     create_sea(U, 250.0, 70.0, spacing, id);
@@ -170,9 +170,10 @@ int main() {
     while (U.get_temps() < T_END) {
 
         U.avancer(DT, T_END, true, G);
+        if (step % 100 == 0)   U.check_validity();
 
         // Rescaling toutes 1000 itérations (énoncé)
-        if (step % 1000 == 0)
+        if (step > 4000 && step % 1000 == 0)
             U.rescaler_vitesses(ECIBLE);
 
         if (step > 100 && step % 50 == 0)
