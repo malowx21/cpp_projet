@@ -170,7 +170,7 @@ int main() {
     while (U.get_temps() < T_END) {
 
         U.avancer(DT, T_END, true, G);
-        if (step % 100 == 0)   U.check_validity();
+        if (step % 100 == 0)   U.check_validite();
 
         // Rescaling toutes 1000 itérations (énoncé)
         if (step > 4000 && step % 1000 == 0)

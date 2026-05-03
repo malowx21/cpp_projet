@@ -4,7 +4,8 @@
 #include <vector>
 
 
-// Constructeur 
+// Constructeur : crée l'univers de simulation et l'initialise
+// avec ses paramètres physiques et géomètriques .
 Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs)
     : dimension(dim), t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs)  {
 
@@ -21,6 +22,9 @@ Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<doub
     // Initialisation de la grille des cellules 
     initialiser_grille();
 }
+
+// Condition aux limites : applique les conditions de réflexion, absorption 
+// et périodique à toutes les particules .
 void Univers::appliquer_conditions_limites() {
 
     for (auto& p : particules) {
@@ -28,43 +32,48 @@ void Univers::appliquer_conditions_limites() {
         Vecteur& pos = p.getPosition();
         Vecteur& vit = p.getVitesse();
 
-        //  X direction 
+        // Un pas epsilon pour éviter qu'une particule reste sur le bord
         const double eps_wall = 1e-6;
-
-        // LEFT
+        
+        //  Direction de l'axe des X 
+        // parois gauche
         if (pos.getX() < 0) {
             pos.setX(eps_wall);
             vit.setX( std::abs(vit.getX()));
         }
-
-        // RIGHT
+        
+        // parois droite
         if (pos.getX() > L[0]) {
             pos.setX(L[0] - eps_wall);
             vit.setX(- std::abs(vit.getX()));
         }
-
-        // BOTTOM
+        
+        //  Direction de l'axe des Y
+        // parois  inferieure
         if (pos.getY() < 0) {
             pos.setY(eps_wall);
             vit.setY( std::abs(vit.getY()));
         }
 
-        // TOP
+        // parois superieure 
         if (pos.getY() > L[1]) {
             pos.setY(L[1] - eps_wall);
             vit.setY(-std::abs(vit.getY()));
         }
-        //  Z direction 
+        //  Direction de l'axe des Z 
         if (pos.getZ() < 0) {
 
             if (type_border == 0) {
+                // Reflexion : replace la particule et on inverse la vitesse
                 pos.setZ(0);
                 vit.setZ(-vit.getZ());
             }
             else if (type_border == 1) {
+                // Périodique 
                 pos.setZ(pos.getZ() + L[2]);
             }
             else if (type_border == 2) {
+                // Absorption : on met la masse 0 afin qu'on puisse la detecter et supprimer par la suite .
                 p.setMasse(0);
             }
         }
@@ -86,17 +95,18 @@ void Univers::appliquer_conditions_limites() {
         p.setVitesse(vit);
     }
 
-    //  Remove absorbed particles 
+    //  Suppression des particules absorbées 
     if (type_border == 2) {
         particules.erase(
-            std::remove_if(particules.begin(), particules.end(),
-                [](const Particule& p) {
+            std::remove_if(particules.begin(), particules.end(),[](const Particule& p) {
                     return p.getMasse() == 0;
                 }),
             particules.end()
         );
     }
 }
+
+// Initialisation de la grille des cellules de l'univers 
 void Univers::initialiser_grille() {
     // Nombre totale des cellules 
     int total = n_cubes[0] * n_cubes[1] * n_cubes[2];
@@ -129,7 +139,7 @@ void Univers::initialiser_grille() {
 }
 
 
-// Ajout de la particule
+// Ajout une particule à la liste des particules de l'univers
 void Univers::ajouter_particule(const Particule& p) {
     particules.push_back(p);
 }
@@ -154,7 +164,7 @@ void Univers::mettre_a_jour_cellules() {
         cellules[get_cellule_index(particules[i].getPosition())].addParticule(i);
 }
 
-// Obtenir les voisins d'une cellule selon son indice
+// Retourne liste des indices des cellules voisines d'une cellule selon son indice
 std::vector<int> Univers::get_voisins(int cellule_idx) const {
     std::vector<int> res;
     const Cellule& c = cellules[cellule_idx];
@@ -163,24 +173,28 @@ std::vector<int> Univers::get_voisins(int cellule_idx) const {
         res.push_back(c.getVoisins()[n]);
     return res;
 }
+
+// Ajoute force de repulsion sur chaque particule qui s'approche des parois
 void Univers::ajouter_forces_parois() {
 
+    // Distance en dessous de laquelle la paroi commence à repousser la particule
     const double A_cut = pow(2.0, 1.0/6.0) * sigma;
 
     for (auto& p : particules) {
 
+        //Vecteurs position et force 
         Vecteur pos = p.getPosition();
         Vecteur force = p.getForce();
 
-        // Distance to walls
-        double d_left   = pos.getX();
-        double d_right  = L[0] - pos.getX();
-        double d_bottom = pos.getY();
+        // Distance aux parois selon X et Y
+        double d_gauche   = pos.getX();
+        double d_droite  = L[0] - pos.getX();
+        double d_bot = pos.getY();
         double d_top    = L[1] - pos.getY();
 
-        // Example: LEFT wall
-        if (d_left < A_cut) {
-            double A = std::max(d_left, 0.1 * sigma);
+        //  Parois gauche : force vers x
+        if (d_gauche < A_cut) {
+            double A = std::max(d_gauche, 0.1 * sigma);
             double invA = 1.0 / A;
             double sr = sigma * invA;
             double sr2 = sr * sr;
@@ -191,9 +205,9 @@ void Univers::ajouter_forces_parois() {
             force.setX(force.getX() + f);
         }
 
-        // RIGHT wall
-        if (d_right < A_cut) {
-            double A = std::max(d_right, 0.1 * sigma);
+        // Parois droite : force vers -x
+        if (d_droite < A_cut) {
+            double A = std::max(d_droite, 0.1 * sigma);
             double invA = 1.0 / A;
             double sr = sigma * invA;
             double sr2 = sr * sr;
@@ -204,10 +218,10 @@ void Univers::ajouter_forces_parois() {
             force.setX(force.getX() - f);
         }
 
-        // SAME for Y walls...
-        // BOTTOM
-        if (d_bottom < A_cut) {
-            double A = std::max(d_bottom, 0.1 * sigma);
+        
+        // Parois inferieure : force vers y
+        if (d_bot < A_cut) {
+            double A = std::max(d_bot, 0.1 * sigma);
             double invA = 1.0 / A;
             double sr = sigma * invA;
             double sr2 = sr * sr;
@@ -217,7 +231,7 @@ void Univers::ajouter_forces_parois() {
             force.setY(force.getY() + f);
         }
 
-        // TOP
+        // Parois superieure : force vers -y 
         if (d_top < A_cut) {
             double A = std::max(d_top, 0.1 * sigma);
             double invA = 1.0 / A;
@@ -231,8 +245,11 @@ void Univers::ajouter_forces_parois() {
         p.setForce(force);
     }
 }
-void Univers::calculer_forces_lj() {
 
+// Calcule des forces de lennard-jonnes entre toutes les deux particules 
+// le rayoin est inférieur à rcut 
+void Univers::calculer_forces_lj() {
+    // On met toutes les forces à 0 
     for (auto& p : particules){
         Vecteur& f = p.getForce();
         f.setX(0); f.setY(0); f.setZ(0);
@@ -252,6 +269,7 @@ void Univers::calculer_forces_lj() {
         for (int n = 0; n < nb_voisins_i; ++n) {
 
             int jc = voisins_i[n];
+            // Chaque pair de particule est traitée une seul fois 
             if (jc < (int)ic) continue;
 
             const Cellule& cell_j = cellules[jc];
@@ -267,9 +285,8 @@ void Univers::calculer_forces_lj() {
                 Vecteur& Fi = pi.getForce();
 
                 for (int j : part_j) {
-
+                    // Eviter les doublons  ainsi que l'auto-interaction 
                     if (ic == (size_t)jc && i >= j) continue;
-
                     Particule& pj = particules[j];
                     const Vecteur& posj = pj.getPosition();
                     Vecteur& Fj = pj.getForce();
@@ -280,29 +297,31 @@ void Univers::calculer_forces_lj() {
 
                     double r2 = rx*rx + ry*ry + rz*rz;
                     
+                    // Eviter la divergence si dexu particules sont au meme endroit
                     if (r2 < 0.25 * sigma * sigma) r2 = 0.25 * sigma * sigma;
+                    // On ignore les pairs dont le rayon est supérieur à rcut 
                     if (r2 >rcut2) continue;
                     
-
                     double inv_r2 = 1.0 / r2;
                     double sr2 = sig2 * inv_r2;
                     double sr6 = sr2 * sr2 * sr2;
                     
-
                     double f = eps24 * inv_r2 * sr6*(1.0 - 2.0 * sr6);
-
+                    // Vecteur force entre les particules i et j
                     Vecteur Fij(rx * f, ry * f, rz * f);
 
                     Fi += Fij;
-                    Fj -= Fij;//3 ème loi 
+                    // Troisième loi de Newton 
+                    Fj -= Fij;
                 }
             }
         }
     }
-
+    // Ajout des forces de répulsion des parois 
     ajouter_forces_parois();
 }
 
+// Energie cinetique du systeme de particules 
 double Univers::energie_cinetique() const {
     double Ec = 0.0;
     for (const auto& p : particules) {
@@ -311,9 +330,12 @@ double Univers::energie_cinetique() const {
     }
     return Ec;
 }
+
+// Mise en echelle des vitesses pour que l'énegie cinétique 
+// atteigne l'énergie cible afin de limiter la divergence de la vitesse.
 void Univers::rescaler_vitesses(double Ec_cible) {
     double Ec = energie_cinetique();
-    if(Ec < 1e-12) {std::cout<<"Danger"<<std::endl;
+    if(Ec < 1e-12) {std::cout<<"Energie cinetique trop petite "<<std::endl;
         return;
     }
     double lambda = sqrt(Ec_cible / Ec);
@@ -322,6 +344,9 @@ void Univers::rescaler_vitesses(double Ec_cible) {
         p.setVitesse(p.getVitesse() * lambda);
     }
 }
+
+// Ajout de la force de gravitationnelle à chaque 
+// particule  notamment  pour la composante suivant Y
 void Univers::ajouter_gravite(double g) {
     for (auto& p : particules) {
         Vecteur& f = p.getForce();
@@ -329,21 +354,21 @@ void Univers::ajouter_gravite(double g) {
         p.setForce(f);
     }
 }
-//  Avancement de l'état de la grille dans le temps de dt 
+
+
+//  Avancement de l'état de la grille des cellules  dans le temps de dt selon l'algorithme de Verlet  
 void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) {
 
     if (t >= t_end) return;
 
     int N = particules.size();
 
-   
-
-    // --- Forces at t
+    // Forces à l'instant  t
     calculer_forces_lj();
     if (utiliser_gravite)
         ajouter_gravite(g);
 
-    // --- Positions
+    // Positions
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
 
@@ -355,22 +380,22 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) 
 
     appliquer_conditions_limites();
 
-    // --- Update cells AFTER move
+    // Mise à jour des cellules 
     mettre_a_jour_cellules();
 
-    // --- Store old forces
+    // Stocker les anciennees forces 
     static std::vector<Vecteur> forces_old;
     forces_old.resize(N);
 
     for (int i = 0; i < N; i++)
         forces_old[i] = particules[i].getForce();
 
-    // --- Forces at t+dt
+    // Forces à l'instant t+dt
     calculer_forces_lj();
     if (utiliser_gravite)
         ajouter_gravite(g);
 
-    // --- Velocities
+    // Vitesses 
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
 
@@ -382,6 +407,8 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) 
 
     t += dt;
 }
+
+
 // Afficher l'état de la grille
 void Univers::afficher_stats_grille() const {
     int occupees = 0;
@@ -397,40 +424,19 @@ void Univers::afficher_stats_grille() const {
     std::cout << "Max particules/cellule: " << max_p << "\n";
 }
 
-void Univers::check_validity() {
+
+// Vérifie que l'état de la simulation est physiquement valide. Sinon lève des exceptions
+void Univers::check_validite() {
     for (const auto& p : particules) {
         auto pos = p.getPosition();
 
-        if (!std::isfinite(pos.getX()) ||
-            !std::isfinite(pos.getY()) ||
+        if (!std::isfinite(pos.getX()) || !std::isfinite(pos.getY()) ||
             !std::isfinite(pos.getZ())) {
-
-            throw std::runtime_error("Invalid particle position");
+            throw std::runtime_error("Position de la particule invalide");
         }
     }
-
     double Ec = energie_cinetique();
     if (!std::isfinite(Ec)) {
-        throw std::runtime_error("Energy is not finite");
+        throw std::runtime_error("L'energie n'est pas finie");
     }
 }
-// Le mécanisme de gestion des erreurs mis en place présente plusieurs avantages.
-// Tout d’abord, il permet de détecter rapidement des anomalies numériques telles
-// que des valeurs non définies (NaN) ou infinies dans les positions, les vitesses
-// ou l’énergie cinétique. Cela évite la propagation silencieuse d’erreurs dans la simulation
-// et facilite grandement le débogage. De plus, l’utilisation d’exceptions permet
-// d’interrompre proprement l’exécution du programme en cas de problème grave,
-// garantissant ainsi une meilleure robustesse du code.
-
-// Cependant, ce mécanisme possède également certaines limites. D’une part,
-// les vérifications ajoutent un coût de calcul supplémentaire,
-// en particulier si elles sont effectuées à chaque itération. D’autre part, 
-// il s’agit d’un mécanisme purement détectif : il identifie les erreurs
-// mais ne propose pas de stratégie pour les corriger automatiquement.
-// Par ailleurs, le choix des seuils (par exemple pour éviter des distances
-// trop faibles) reste arbitraire et peut influencer le comportement de la simulation.
-
-// Enfin, on peut compléter ce dispositif par un suivi de grandeurs physiques globales,
-// comme l’énergie cinétique ou l’énergie totale, qui constitue un indicateur pertinent
-// de la stabilité numérique du système. Cela permet de détecter des dérives sans
-// nécessairement interrompre immédiatement la simulation

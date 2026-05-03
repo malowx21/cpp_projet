@@ -166,11 +166,62 @@ public:
      * par cellule et la cellule la plus peuplée.
      */
     void afficher_stats_grille() const;
+
+
+    /**
+     * @brief Applique les conditions aux limites sur toutes les particules.
+     *
+     * Selon  X et Y : réflexion élastique sur les quatre parois .
+     * En Z : comportement selon @c type_border
+     *  - 0 : réflexion 
+     *  - 1 : conditions périodiques 
+     *  - 2 : absorption 
+     */
     void appliquer_conditions_limites();
+
+    /**
+     * @brief Ajoute une force répulsive sur les particules proches des parois.
+     * Seules les parois en X et Y sont concernées. 
+     * Une distance minimale de @f$ 0{,}1\,\sigma @f$ est imposée pour éviter les divergences.
+     */
     void ajouter_forces_parois();
+
+
+    /**
+     * @brief Ajoute la force gravitationnelle à toutes les particules selon l'axe des Y.
+     *
+     * @param g force  gravitationnelle .
+     */
     void ajouter_gravite(double g);
+
+    /**
+     * @brief Calcule et retourne l'énergie cinétique totale du système.
+     *@f$ E_c = \sum_i \frac{1}{2} m_i \|\vec{v}_i\|^2 @f$
+     *
+     * @return Énergie cinétique totale  du système.
+     */
     double energie_cinetique() const;
+
+
+    /**
+     * @brief Rescale les vitesses de toutes les particules pour atteindre une énergie cinétique cible.
+     *
+     * Applique un facteur @f$ \lambda = \sqrt{E_{c,\text{cible}} / E_c} @f$ à toutes les vitesses.
+     * Ne fait rien si l'énergie cinétique courante est quasi nulle .
+     *
+     * @param Ec_cible Énergie cinétique cible à atteindre.
+     */
     void rescaler_vitesses(double Ec_cible);
-    void check_validity();
+
+
+     /**
+     * @brief Vérifie que l'état de la simulation est physiquement valide.
+     *
+     * Lève une exception @c std::runtime_error si une particule a une position
+     * non finie , ou si l'énergie cinétique totale n'est pas finie.
+     * Ces cas indiquent généralement une explosion numérique due à un pas de temps
+     * trop grand ou à des particules initialement trop proches.
+     */
+    void check_validite();
 };
 #endif
