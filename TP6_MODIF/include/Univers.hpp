@@ -34,7 +34,7 @@
 class Univers {
 private:
     int dimension;
-    int type_border;
+    
     std::vector<Particule> particules;  
     double t;
 
@@ -44,6 +44,7 @@ private:
     double sigma;
     double rcut;                        
     std::vector<double> L;
+    int type_border;
 
     // Paramètres du maillage
     std::array<int, 3> n_cubes;         
@@ -61,8 +62,8 @@ public:
      * @param r_cut Rayon de coupure des interactions 
      * @param longueurs Dimensions du domaine de simulation 
      */
-    Univers(int dim, double eps = 1.0, double sig = 1.0, double r_cut = 2.5,
-            std::vector<double> longueurs = {250.0, 40.0, 40.0});
+    Univers(int dim , double eps = 1.0, double sig = 1.0, double r_cut = 2.5,
+            std::vector<double> longueurs = {250.0, 40.0, 40.0}, int type = -1);//pas de murs par défaut
 
     /**
      * @brief Retourne la liste des particules modifiable.
@@ -71,6 +72,7 @@ public:
     std::vector<Particule>& get_particules() { 
         return particules;
     }
+  
     int get_type_boder() const{
         return type_border;
     }
@@ -81,6 +83,7 @@ public:
     const std::vector<Particule>& get_particules() const { 
         return particules;
     }
+
 
     /**
      * @brief Retourne le temps courant de la simulation.

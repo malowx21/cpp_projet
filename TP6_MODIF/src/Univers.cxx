@@ -6,8 +6,8 @@
 
 // Constructeur : crée l'univers de simulation et l'initialise
 // avec ses paramètres physiques et géomètriques .
-Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs)
-    : dimension(dim), t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs)  {
+Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs, int type)
+    : dimension(dim) ,t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs) , type_border(type) {
 
     while (L.size() < 3) L.push_back(1.0);
     
@@ -27,61 +27,82 @@ Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<doub
 // et périodique à toutes les particules .
 void Univers::appliquer_conditions_limites() {
 
+    const double eps_wall = 1e-6;
+
     for (auto& p : particules) {
 
-        Vecteur& pos = p.getPosition();
-        Vecteur& vit = p.getVitesse();
+        Vecteur pos = p.getPosition();
+        Vecteur vit = p.getVitesse();
 
-        // Un pas epsilon pour éviter qu'une particule reste sur le bord
-        const double eps_wall = 1e-6;
-        
-        //  Direction de l'axe des X 
-        // parois gauche
+        // ===== X =====
         if (pos.getX() < 0) {
-            pos.setX(eps_wall);
-            vit.setX( std::abs(vit.getX()));
-        }
-        
-        // parois droite
-        if (pos.getX() > L[0]) {
-            pos.setX(L[0] - eps_wall);
-            vit.setX(- std::abs(vit.getX()));
-        }
-        
-        //  Direction de l'axe des Y
-        // parois  inferieure
-        if (pos.getY() < 0) {
-            pos.setY(eps_wall);
-            vit.setY( std::abs(vit.getY()));
-        }
-
-        // parois superieure 
-        if (pos.getY() > L[1]) {
-            pos.setY(L[1] - eps_wall);
-            vit.setY(-std::abs(vit.getY()));
-        }
-        //  Direction de l'axe des Z 
-        if (pos.getZ() < 0) {
-
             if (type_border == 0) {
-                // Reflexion : replace la particule et on inverse la vitesse
-                pos.setZ(0);
-                vit.setZ(-vit.getZ());
+                pos.setX(eps_wall);
+                vit.setX(std::abs(vit.getX()));
             }
             else if (type_border == 1) {
-                // Périodique 
+                pos.setX(pos.getX() + L[0]);
+            }
+            else if (type_border == 2) {
+                p.setMasse(0);
+            }
+        }
+        else if (pos.getX() > L[0]) {
+            if (type_border == 0) {
+                pos.setX(L[0] - eps_wall);
+                vit.setX(-std::abs(vit.getX()));
+            }
+            else if (type_border == 1) {
+                pos.setX(pos.getX() - L[0]);
+            }
+            else if (type_border == 2) {
+                p.setMasse(0);
+            }
+        }
+
+        // ===== Y =====
+        if (pos.getY() < 0) {
+            if (type_border == 0) {
+                pos.setY(eps_wall);
+                vit.setY(std::abs(vit.getY()));
+            }
+            else if (type_border == 1) {
+                pos.setY(pos.getY() + L[1]);
+            }
+            else if (type_border == 2) {
+                p.setMasse(0);
+            }
+        }
+        else if (pos.getY() > L[1]) {
+            if (type_border == 0) {
+                pos.setY(L[1] - eps_wall);
+                vit.setY(-std::abs(vit.getY()));
+            }
+            else if (type_border == 1) {
+                pos.setY(pos.getY() - L[1]);
+            }
+            else if (type_border == 2) {
+                p.setMasse(0);
+            }
+        }
+
+        // ===== Z =====
+        if (pos.getZ() < 0) {
+            if (type_border == 0) {
+                pos.setZ(eps_wall);
+                vit.setZ(std::abs(vit.getZ()));
+            }
+            else if (type_border == 1) {
                 pos.setZ(pos.getZ() + L[2]);
             }
             else if (type_border == 2) {
-                // Absorption : on met la masse 0 afin qu'on puisse la detecter et supprimer par la suite .
                 p.setMasse(0);
             }
         }
         else if (pos.getZ() > L[2]) {
-
             if (type_border == 0) {
-                pos.setZ(L[2]);
-                vit.setZ(-vit.getZ());
+                pos.setZ(L[2] - eps_wall);
+                vit.setZ(-std::abs(vit.getZ()));
             }
             else if (type_border == 1) {
                 pos.setZ(pos.getZ() - L[2]);
@@ -95,17 +116,15 @@ void Univers::appliquer_conditions_limites() {
         p.setVitesse(vit);
     }
 
-    //  Suppression des particules absorbées 
+    // Suppression si absorption
     if (type_border == 2) {
         particules.erase(
-            std::remove_if(particules.begin(), particules.end(),[](const Particule& p) {
-                    return p.getMasse() == 0;
-                }),
+            std::remove_if(particules.begin(), particules.end(),
+                [](const Particule& p) { return p.getMasse() == 0; }),
             particules.end()
         );
     }
 }
-
 // Initialisation de la grille des cellules de l'univers 
 void Univers::initialiser_grille() {
     // Nombre totale des cellules 

@@ -113,3 +113,70 @@ TEST(UniversTest, AjoutParticules) {
 
     EXPECT_EQ((int)U.get_particules().size(), 2);
 }
+TEST(WallsTest, ReflexionX) {
+    Univers U(2, 1.0, 1.0, 2.5, {10,10,1}, 0);
+
+    Particule p;
+    p.setPosition(Vecteur(-1, 5, 0));
+    p.setVitesse(Vecteur(-2, 0, 0));
+    p.setMasse(1);
+
+    U.ajouter_particule(p);
+
+    U.appliquer_conditions_limites();
+
+    auto& P = U.get_particules()[0];
+
+    EXPECT_GT(P.getPosition().getX(), 0);
+    EXPECT_GT(P.getVitesse().getX(), 0); // inverted
+}
+
+
+TEST(WallsTest, PeriodiqueX) {
+    Univers U(2, 1.0, 1.0, 2.5, {10,10,1}, 1);
+
+    Particule p;
+    p.setPosition(Vecteur(11, 5, 0));
+    p.setVitesse(Vecteur(1, 0, 0));
+    p.setMasse(1);
+
+    U.ajouter_particule(p);
+
+    U.appliquer_conditions_limites();
+
+    auto& P = U.get_particules()[0];
+
+    EXPECT_LT(P.getPosition().getX(), 10);
+}
+TEST(WallsTest, Absorption) {
+    Univers U(2, 1.0, 1.0, 2.5, {10,10,1}, 2);
+
+    Particule p;
+    p.setPosition(Vecteur(-1, 0, 0));
+    p.setMasse(1);
+
+    U.ajouter_particule(p);
+
+    U.appliquer_conditions_limites();
+
+    EXPECT_TRUE(U.get_particules().empty());
+}
+
+TEST(PhysicsTest, RescalingWorks) {
+    Univers U(2);
+
+    Particule p;
+    p.setPosition(Vecteur(5,5,0));
+    p.setVitesse(Vecteur(10,0,0));
+    p.setMasse(1);
+
+    U.ajouter_particule(p);
+
+    //double Ec_before = U.energie_cinetique();
+
+    U.rescaler_vitesses(1.0);
+
+    double Ec_after = U.energie_cinetique();
+
+    EXPECT_NEAR(Ec_after, 1.0, 1e-6);
+}

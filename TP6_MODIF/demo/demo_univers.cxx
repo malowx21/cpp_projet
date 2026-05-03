@@ -98,7 +98,7 @@ void creer_mer(Univers& U, double width, double height,
 
             Particule p;
             p.setPosition(Vecteur(x, y, 0));
-            double v0 = 0.5;
+            //double v0 = 0.5;
             // p.setVitesse(Vecteur(
             //     v0 * (rand() / double(RAND_MAX) - 0.5),
             //     v0 * (rand() / double(RAND_MAX) - 0.5),
@@ -113,11 +113,13 @@ void creer_mer(Univers& U, double width, double height,
 }
 
 int main() {
-    (void)system("rm -rf vtk_output");
+    int ret = system("rm -rf vtk_output");
+    (void)ret;
+   
     std::filesystem::create_directories("vtk_output");
 
-    // Paramètres du tp : L1=250, L2=180
-    Univers U(2, EPSILON, SIGMA, RCUT, {250.0, 180.0, 1.0});
+    // Paramètres exacts de l'énoncé : L1=250, L2=180
+    Univers U(2, EPSILON, SIGMA, RCUT, {250.0, 180.0, 1.0}, 0);
 
     int id = 0;
 
