@@ -6,20 +6,18 @@
 
 // Constructeur : crée l'univers de simulation et l'initialise
 // avec ses paramètres physiques et géomètriques .
-Univers::Univers(int dim, double eps, double sig, double r_cut, std::vector<double> longueurs, int type)
-    : dimension(dim) ,t(0.0), epsilon(eps), sigma(sig), rcut(r_cut), L(longueurs) , type_border(type) {
 
+Univers::Univers(int dim, double eps, double sig, double r_cut,
+                 std::vector<double> longueurs, int type)
+    : dimension(dim), t(0.0), epsilon(eps), sigma(sig),
+      rcut(r_cut), L(std::move(longueurs)), type_border(type)  
+{
     while (L.size() < 3) L.push_back(1.0);
-    
     // Calcule du nombre et taille de cellules dans chaque directions 
     for (int d = 0; d < 3; d++) {
-        n_cubes[d] = std::max(1, static_cast<int>(L[d] / rcut));
+        n_cubes[d]       = std::max(1, static_cast<int>(L[d] / rcut));
         taille_cellule[d] = L[d] / n_cubes[d];
     }
-    // std::cout << "Grille: " << n_cubes[0] << " x " << n_cubes[1] << " x " << n_cubes[2]
-    //           << " = " << n_cubes[0]*n_cubes[1]*n_cubes[2] << " cellules\n";
-
-    // Initialisation de la grille des cellules 
     initialiser_grille();
 }
 
@@ -31,11 +29,12 @@ void Univers::appliquer_conditions_limites() {
 
     for (auto& p : particules) {
 
-        Vecteur pos = p.getPosition();
-        Vecteur vit = p.getVitesse();
+        // Références directes — aucune copie Vecteur
+        Vecteur& pos = p.getPosition();
+        Vecteur& vit = p.getVitesse();
 
-        // Selon l'axe X 
-        if (pos.getX() < 0) {
+        // Selon l'axe X
+        if (pos.getX() < 0.0) {
             if (type_border == 0) {
                 pos.setX(eps_wall);
                 vit.setX(std::abs(vit.getX()));
@@ -61,7 +60,7 @@ void Univers::appliquer_conditions_limites() {
         }
 
         // Selon l'axe Y
-        if (pos.getY() < 0) {
+        if (pos.getY() < 0.0) {
             if (type_border == 0) {
                 pos.setY(eps_wall);
                 vit.setY(std::abs(vit.getY()));
@@ -87,7 +86,7 @@ void Univers::appliquer_conditions_limites() {
         }
 
         // Selon l'axe Z
-        if (pos.getZ() < 0) {
+        if (pos.getZ() < 0.0) {
             if (type_border == 0) {
                 pos.setZ(eps_wall);
                 vit.setZ(std::abs(vit.getZ()));
@@ -112,8 +111,7 @@ void Univers::appliquer_conditions_limites() {
             }
         }
 
-        p.setPosition(pos);
-        p.setVitesse(vit);
+        // Plus de setPosition/setVitesse — les refs modifient directement la particule
     }
 
     // Suppression si absorption
@@ -196,72 +194,28 @@ std::vector<int> Univers::get_voisins(int cellule_idx) const {
 // Ajoute force de repulsion sur chaque particule qui s'approche des parois
 void Univers::ajouter_forces_parois() {
 
-    // Distance en dessous de laquelle la paroi commence à repousser la particule
-    const double A_cut = pow(2.0, 1.0/6.0) * sigma;
+    const double A_cut = std::pow(2.0, 1.0/6.0) * sigma;
+
+    // Helper : force LJ wall pour une distance d
+    auto lj_wall = [&](double d) -> double {
+        double A   = std::max(d, 0.1 * sigma);
+        double invA = 1.0 / A;
+        double sr  = sigma * invA;
+        double sr6 = sr * sr; sr6 = sr6 * sr6 * sr6;
+        return -24.0 * epsilon * invA * sr6 * (1.0 - 2.0 * sr6);
+    };
 
     for (auto& p : particules) {
+        Vecteur& pos   = p.getPosition();   // référence directe, 0 copie
+        Vecteur& force = p.getForce();
 
-        //Vecteurs position et force 
-        Vecteur pos = p.getPosition();
-        Vecteur force = p.getForce();
+        const double px = pos.getX();
+        const double py = pos.getY();
 
-        // Distance aux parois selon X et Y
-        double d_gauche   = pos.getX();
-        double d_droite  = L[0] - pos.getX();
-        double d_bot = pos.getY();
-        double d_top    = L[1] - pos.getY();
-
-        //  Parois gauche : force vers x
-        if (d_gauche < A_cut) {
-            double A = std::max(d_gauche, 0.1 * sigma);
-            double invA = 1.0 / A;
-            double sr = sigma * invA;
-            double sr2 = sr * sr;
-            double sr6 = sr2 * sr2 * sr2;
-
-            double f =  -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
-
-            force.setX(force.getX() + f);
-        }
-
-        // Parois droite : force vers -x
-        if (d_droite < A_cut) {
-            double A = std::max(d_droite, 0.1 * sigma);
-            double invA = 1.0 / A;
-            double sr = sigma * invA;
-            double sr2 = sr * sr;
-            double sr6 = sr2 * sr2 * sr2;
-
-            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
-
-            force.setX(force.getX() - f);
-        }
-
-        
-        // Parois inferieure : force vers y
-        if (d_bot < A_cut) {
-            double A = std::max(d_bot, 0.1 * sigma);
-            double invA = 1.0 / A;
-            double sr = sigma * invA;
-            double sr2 = sr * sr;
-            double sr6 = sr2 * sr2 * sr2;
-
-            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
-            force.setY(force.getY() + f);
-        }
-
-        // Parois superieure : force vers -y 
-        if (d_top < A_cut) {
-            double A = std::max(d_top, 0.1 * sigma);
-            double invA = 1.0 / A;
-            double sr = sigma * invA;
-            double sr2 = sr * sr;
-            double sr6 = sr2 * sr2 * sr2;
-
-            double f = -24 * epsilon * invA * sr6 * (1 - 2 * sr6);
-            force.setY(force.getY() - f);
-        }
-        p.setForce(force);
+        if (px < A_cut)        force.setX(force.getX() + lj_wall(px));
+        if (L[0] - px < A_cut) force.setX(force.getX() - lj_wall(L[0] - px));
+        if (py < A_cut)        force.setY(force.getY() + lj_wall(py));
+        if (L[1] - py < A_cut) force.setY(force.getY() - lj_wall(L[1] - py));
     }
 }
 
@@ -344,8 +298,9 @@ void Univers::calculer_forces_lj() {
 double Univers::energie_cinetique() const {
     double Ec = 0.0;
     for (const auto& p : particules) {
-        double v2 = p.getVitesse().norm();
-        Ec += 0.5 * p.getMasse() * v2 * v2;
+        const Vecteur& v = p.getVitesse();
+        const double vx  = v.getX(), vy = v.getY(), vz = v.getZ();
+        Ec += 0.5 * p.getMasse() * (vx*vx + vy*vy + vz*vz);
     }
     return Ec;
 }
@@ -353,80 +308,84 @@ double Univers::energie_cinetique() const {
 // Mise en echelle des vitesses pour que l'énegie cinétique 
 // atteigne l'énergie cible afin de limiter la divergence de la vitesse.
 void Univers::rescaler_vitesses(double Ec_cible) {
-    double Ec = energie_cinetique();
-    if(Ec < 1e-12) {std::cout<<"Energie cinetique trop petite "<<std::endl;
+    const double Ec = energie_cinetique();
+    if (Ec < 1e-12) {
+        std::cerr << "[Univers] rescaler_vitesses : énergie cinétique quasi-nulle, rescaling ignoré\n";
         return;
     }
-    double lambda = sqrt(Ec_cible / Ec);
-
+    const double lambda = std::sqrt(Ec_cible / Ec);
     for (auto& p : particules) {
-        p.setVitesse(p.getVitesse() * lambda);
+        Vecteur& v = p.getVitesse();
+        v.setX(v.getX() * lambda);
+        v.setY(v.getY() * lambda);
+        v.setZ(v.getZ() * lambda);
     }
 }
-
 // Ajout de la force de gravitationnelle à chaque 
 // particule  notamment  pour la composante suivant Y
 void Univers::ajouter_gravite(double g) {
     for (auto& p : particules) {
         Vecteur& f = p.getForce();
         f.setY(f.getY() + p.getMasse() * g);
-        p.setForce(f);
+        // setForce(f) supprimé ,f est déjà une référence sur la force de p
     }
 }
-
 
 //  Avancement de l'état de la grille des cellules  dans le temps de dt selon l'algorithme de Verlet  
 void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) {
 
     if (t >= t_end) return;
 
-    int N = particules.size();
+    const int N = static_cast<int>(particules.size());
 
-    // Forces à l'instant  t
+    // Forces à t
     calculer_forces_lj();
-    if (utiliser_gravite)
-        ajouter_gravite(g);
+    if (utiliser_gravite) ajouter_gravite(g);
 
-    // Positions
+    // Positions — pas de Vecteur temporaire
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
+        const double inv_m = 1.0 / p.getMasse();
+        const double c     = 0.5 * dt * dt * inv_m;
 
-        Vecteur acc = p.getForce() / p.getMasse();
+        Vecteur& pos       = p.getPosition();
+        const Vecteur& vel = p.getVitesse();
+        const Vecteur& f   = p.getForce();
 
-        p.getPosition() += p.getVitesse() * dt
-                         + acc * (0.5 * dt * dt);
+        pos.setX(pos.getX() + vel.getX() * dt + f.getX() * c);
+        pos.setY(pos.getY() + vel.getY() * dt + f.getY() * c);
+        pos.setZ(pos.getZ() + vel.getZ() * dt + f.getZ() * c);
     }
 
     appliquer_conditions_limites();
-
-    // Mise à jour des cellules 
     mettre_a_jour_cellules();
 
-    // Stocker les anciennees forces 
-    static std::vector<Vecteur> forces_old;
-    forces_old.resize(N);
-
+    // Sauvegarde des forces à t, variable locale (pas static)
+    std::vector<Vecteur> forces_old(N);
     for (int i = 0; i < N; i++)
         forces_old[i] = particules[i].getForce();
 
-    // Forces à l'instant t+dt
+    // Forces à t+dt
     calculer_forces_lj();
-    if (utiliser_gravite)
-        ajouter_gravite(g);
+    if (utiliser_gravite) ajouter_gravite(g);
 
-    // Vitesses 
+    // Vitesses — pas de Vecteur temporaire
     for (int i = 0; i < N; i++) {
-        Particule& p = particules[i];
+        Particule& p         = particules[i];
+        const double inv_m   = 1.0 / p.getMasse();
+        const double c       = 0.5 * dt * inv_m;
 
-        Vecteur acc_old = forces_old[i] / p.getMasse();
-        Vecteur acc_new = p.getForce() / p.getMasse();
+        Vecteur& vel           = p.getVitesse();
+        const Vecteur& f_old   = forces_old[i];
+        const Vecteur& f_new   = p.getForce();
 
-        p.getVitesse() += (acc_old + acc_new) * (0.5 * dt);
+        vel.setX(vel.getX() + (f_old.getX() + f_new.getX()) * c);
+        vel.setY(vel.getY() + (f_old.getY() + f_new.getY()) * c);
+        vel.setZ(vel.getZ() + (f_old.getZ() + f_new.getZ()) * c);
     }
 
     t += dt;
 }
-
 
 // Afficher l'état de la grille
 void Univers::afficher_stats_grille() const {
@@ -447,15 +406,12 @@ void Univers::afficher_stats_grille() const {
 // Vérifie que l'état de la simulation est physiquement valide. Sinon lève des exceptions
 void Univers::check_validite() {
     for (const auto& p : particules) {
-        auto pos = p.getPosition();
-
-        if (!std::isfinite(pos.getX()) || !std::isfinite(pos.getY()) ||
-            !std::isfinite(pos.getZ())) {
-            throw std::runtime_error("Position de la particule invalide");
-        }
+        const Vecteur& pos = p.getPosition();   // référence, pas de copie
+        if (!std::isfinite(pos.getX()) ||
+            !std::isfinite(pos.getY()) ||
+            !std::isfinite(pos.getZ()))
+            throw std::runtime_error("Position non finie détectée, explosion numérique probable");
     }
-    double Ec = energie_cinetique();
-    if (!std::isfinite(Ec)) {
-        throw std::runtime_error("L'energie n'est pas finie");
-    }
+    if (!std::isfinite(energie_cinetique()))
+        throw std::runtime_error("Énergie cinétique non finie, explosion numérique probable");
 }

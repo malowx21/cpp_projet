@@ -8,7 +8,7 @@ Vecteur::Vecteur(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
 
 // Constructeur par copie : crée un vecteur avec les memes
 //  composantes que celles du vecteur passé en paramètre
-Vecteur::Vecteur(const Vecteur& autre): x(autre.x), y(autre.y), z(autre.z) {}
+Vecteur::Vecteur(const Vecteur&) = default;
 
 // Surchage de l'opérateur d'affectation : recopie les composantes du vecteur passé en paramètre
 // tout en évitant l'auto-affectation .
