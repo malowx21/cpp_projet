@@ -34,7 +34,7 @@ void Univers::appliquer_conditions_limites() {
         Vecteur pos = p.getPosition();
         Vecteur vit = p.getVitesse();
 
-        // ===== X =====
+        // Selon l'axe X 
         if (pos.getX() < 0) {
             if (type_border == 0) {
                 pos.setX(eps_wall);
@@ -60,7 +60,7 @@ void Univers::appliquer_conditions_limites() {
             }
         }
 
-        // ===== Y =====
+        // Selon l'axe Y
         if (pos.getY() < 0) {
             if (type_border == 0) {
                 pos.setY(eps_wall);
@@ -86,7 +86,7 @@ void Univers::appliquer_conditions_limites() {
             }
         }
 
-        // ===== Z =====
+        // Selon l'axe Z
         if (pos.getZ() < 0) {
             if (type_border == 0) {
                 pos.setZ(eps_wall);
