@@ -327,7 +327,7 @@ void Univers::ajouter_gravite(double g) {
     for (auto& p : particules) {
         Vecteur& f = p.getForce();
         f.setY(f.getY() + p.getMasse() * g);
-        // setForce(f) supprimé ,f est déjà une référence sur la force de p
+        
     }
 }
 
