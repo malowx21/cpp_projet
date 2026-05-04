@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TP 4: include/Cellule.hpp Source File</title>
+<title>TP 6: include/Cellule.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TP 4
+   <div id="projectname">TP 6
    </div>
   </td>
  </tr>
@@ -106,98 +106,109 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
 </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="foldopen" id="foldopen00045" data-start="{" data-end="}">
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">   45</a></span>    <span class="keyword">const</span> std::vector&lt;int&gt;&amp; <a class="code hl_function" href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">getParticules</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordflow">return</span> particules_ids;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classCellule.html#a19af512414b55ece8e11cb6d4a689cab">   45</a></span>    <a class="code hl_function" href="classCellule.html#a19af512414b55ece8e11cb6d4a689cab">Cellule</a>(<span class="keyword">const</span> <a class="code hl_class" href="classCellule.html">Cellule</a>&amp; autre) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classCellule.html#a0b59c31b793bcd67cc87a3d8c12501d1">   52</a></span>    <a class="code hl_class" href="classCellule.html">Cellule</a>&amp; <a class="code hl_function" href="classCellule.html#a0b59c31b793bcd67cc87a3d8c12501d1">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classCellule.html">Cellule</a>&amp; autre) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">   59</a></span>    <span class="keyword">const</span> std::vector&lt;int&gt;&amp; <a class="code hl_function" href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">getParticules</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> particules_ids;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">   53</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="classVecteur.html">Vecteur</a>&amp; <a class="code hl_function" href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">getCentre</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordflow">return</span> centre;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">   67</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="classVecteur.html">Vecteur</a>&amp; <a class="code hl_function" href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">getCentre</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">return</span> centre;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
 </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classCellule.html#a755633f52bb0eef5b07739cf016891be">   61</a></span>    <span class="keyword">const</span> std::array&lt;int, 27&gt;&amp; <a class="code hl_function" href="classCellule.html#a755633f52bb0eef5b07739cf016891be">getVoisins</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> voisins;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classCellule.html#a755633f52bb0eef5b07739cf016891be">   75</a></span>    <span class="keyword">const</span> std::array&lt;int, 27&gt;&amp; <a class="code hl_function" href="classCellule.html#a755633f52bb0eef5b07739cf016891be">getVoisins</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">return</span> voisins;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
 </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="foldopen" id="foldopen00069" data-start="{" data-end="}">
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">   69</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">getNbVoisins</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">return</span> nb_voisins;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">   83</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">getNbVoisins</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> nb_voisins;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">   77</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">getIndex</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> index;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">   91</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">getIndex</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">return</span> index;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
 </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classCellule.html#a072facb1847e81a0f691e3438f051881">   85</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a072facb1847e81a0f691e3438f051881">setCentre</a>(<span class="keyword">const</span> <a class="code hl_class" href="classVecteur.html">Vecteur</a>&amp; c) { </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        centre = c;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classCellule.html#a072facb1847e81a0f691e3438f051881">   99</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a072facb1847e81a0f691e3438f051881">setCentre</a>(<span class="keyword">const</span> <a class="code hl_class" href="classVecteur.html">Vecteur</a>&amp; c) { </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        centre = c;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
 </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="foldopen" id="foldopen00093" data-start="{" data-end="}">
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">   93</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">setIndex</a>(<span class="keywordtype">int</span> i) { </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        index = i;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">  107</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">setIndex</a>(<span class="keywordtype">int</span> i) { </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        index = i;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
 </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">  101</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">setNbVoisins</a>(<span class="keywordtype">int</span> n) { </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        nb_voisins = n;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">  115</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">setNbVoisins</a>(<span class="keywordtype">int</span> n) { </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        nb_voisins = n;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
 </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">  110</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">setVoisin</a>(<span class="keywordtype">int</span> pos, <span class="keywordtype">int</span> val) { </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        voisins[pos] = val;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="}">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">  124</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">setVoisin</a>(<span class="keywordtype">int</span> pos, <span class="keywordtype">int</span> val) { </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        voisins[pos] = val;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    }</div>
 </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">  118</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">addParticule</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) { </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        particules_ids.push_back(<span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">  132</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">addParticule</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) { </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        particules_ids.push_back(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    }</div>
 </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">  127</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">vider</a>() { </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        particules_ids.clear();</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="foldopen" id="foldopen00141" data-start="{" data-end="}">
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">  141</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">vider</a>() { </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        particules_ids.clear();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    }</div>
 </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">  135</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">est_vide</a>()<span class="keyword"> const </span>{ </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="keywordflow">return</span> particules_ids.empty();</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">  149</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">est_vide</a>()<span class="keyword"> const </span>{ </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">return</span> particules_ids.empty();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }</div>
 </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>};</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classCellule.html#aab24114dccf83128add38fc51a2286d4">  156</a></span>    <a class="code hl_function" href="classCellule.html#aab24114dccf83128add38fc51a2286d4">~Cellule</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>};</div>
 </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aParticule_8hpp_html"><div class="ttname"><a href="Particule_8hpp.html">Particule.hpp</a></div><div class="ttdoc">Définition de la classe Particule représentant une particule physique.</div></div>
 <div class="ttc" id="aVecteur_8hpp_html"><div class="ttname"><a href="Vecteur_8hpp.html">Vecteur.hpp</a></div><div class="ttdoc">Définition de la classe Vecteur.</div></div>
 <div class="ttc" id="aclassCellule_html"><div class="ttname"><a href="classCellule.html">Cellule</a></div><div class="ttdoc">Représente une cellule élémentaire du maillage spatial de l'univers.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:23</div></div>
-<div class="ttc" id="aclassCellule_html_a072facb1847e81a0f691e3438f051881"><div class="ttname"><a href="classCellule.html#a072facb1847e81a0f691e3438f051881">Cellule::setCentre</a></div><div class="ttdeci">void setCentre(const Vecteur &amp;c)</div><div class="ttdoc">Modifie le centre géométrique de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:85</div></div>
-<div class="ttc" id="aclassCellule_html_a0e3c4da0127ff6812b3439b94525e25c"><div class="ttname"><a href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">Cellule::getNbVoisins</a></div><div class="ttdeci">int getNbVoisins() const</div><div class="ttdoc">Retourne le nombre de voisins valides de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:69</div></div>
-<div class="ttc" id="aclassCellule_html_a1707deaadc7cfa01b0c3490d41540481"><div class="ttname"><a href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">Cellule::setIndex</a></div><div class="ttdeci">void setIndex(int i)</div><div class="ttdoc">Modifie l'indice global de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:93</div></div>
-<div class="ttc" id="aclassCellule_html_a66b358967c30b1f6e029feaf778ef2bb"><div class="ttname"><a href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">Cellule::vider</a></div><div class="ttdeci">void vider()</div><div class="ttdoc">Supprime toutes les particules de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:127</div></div>
-<div class="ttc" id="aclassCellule_html_a6e66b2864ecf1509183e92f38ad31733"><div class="ttname"><a href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">Cellule::addParticule</a></div><div class="ttdeci">void addParticule(int id)</div><div class="ttdoc">Ajoute une particule dans la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:118</div></div>
-<div class="ttc" id="aclassCellule_html_a704c55aa2318387d1835321aa1db3a86"><div class="ttname"><a href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">Cellule::setVoisin</a></div><div class="ttdeci">void setVoisin(int pos, int val)</div><div class="ttdoc">Définit l'indice d'un voisin à une position donnée.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:110</div></div>
-<div class="ttc" id="aclassCellule_html_a755633f52bb0eef5b07739cf016891be"><div class="ttname"><a href="classCellule.html#a755633f52bb0eef5b07739cf016891be">Cellule::getVoisins</a></div><div class="ttdeci">const std::array&lt; int, 27 &gt; &amp; getVoisins() const</div><div class="ttdoc">Retourne le tableau des indices des cellules voisines.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:61</div></div>
-<div class="ttc" id="aclassCellule_html_a8de5c90f5e139cef08b0d3203a09e61b"><div class="ttname"><a href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">Cellule::getParticules</a></div><div class="ttdeci">const std::vector&lt; int &gt; &amp; getParticules() const</div><div class="ttdoc">Retourne la liste des identifiants des particules dans la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:45</div></div>
-<div class="ttc" id="aclassCellule_html_a8f4e214564d91e14b3d8a1f46a5a9acb"><div class="ttname"><a href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">Cellule::getIndex</a></div><div class="ttdeci">int getIndex() const</div><div class="ttdoc">Retourne l'indice global de la cellule dans la grille.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:77</div></div>
+<div class="ttc" id="aclassCellule_html_a072facb1847e81a0f691e3438f051881"><div class="ttname"><a href="classCellule.html#a072facb1847e81a0f691e3438f051881">Cellule::setCentre</a></div><div class="ttdeci">void setCentre(const Vecteur &amp;c)</div><div class="ttdoc">Modifie le centre géométrique de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:99</div></div>
+<div class="ttc" id="aclassCellule_html_a0b59c31b793bcd67cc87a3d8c12501d1"><div class="ttname"><a href="classCellule.html#a0b59c31b793bcd67cc87a3d8c12501d1">Cellule::operator=</a></div><div class="ttdeci">Cellule &amp; operator=(const Cellule &amp;autre)=default</div><div class="ttdoc">Opérateur d'affectation par copie.</div></div>
+<div class="ttc" id="aclassCellule_html_a0e3c4da0127ff6812b3439b94525e25c"><div class="ttname"><a href="classCellule.html#a0e3c4da0127ff6812b3439b94525e25c">Cellule::getNbVoisins</a></div><div class="ttdeci">int getNbVoisins() const</div><div class="ttdoc">Retourne le nombre de voisins valides de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:83</div></div>
+<div class="ttc" id="aclassCellule_html_a1707deaadc7cfa01b0c3490d41540481"><div class="ttname"><a href="classCellule.html#a1707deaadc7cfa01b0c3490d41540481">Cellule::setIndex</a></div><div class="ttdeci">void setIndex(int i)</div><div class="ttdoc">Modifie l'indice global de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:107</div></div>
+<div class="ttc" id="aclassCellule_html_a19af512414b55ece8e11cb6d4a689cab"><div class="ttname"><a href="classCellule.html#a19af512414b55ece8e11cb6d4a689cab">Cellule::Cellule</a></div><div class="ttdeci">Cellule(const Cellule &amp;autre)=default</div><div class="ttdoc">Constructeur par copie.</div></div>
+<div class="ttc" id="aclassCellule_html_a66b358967c30b1f6e029feaf778ef2bb"><div class="ttname"><a href="classCellule.html#a66b358967c30b1f6e029feaf778ef2bb">Cellule::vider</a></div><div class="ttdeci">void vider()</div><div class="ttdoc">Supprime toutes les particules de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:141</div></div>
+<div class="ttc" id="aclassCellule_html_a6e66b2864ecf1509183e92f38ad31733"><div class="ttname"><a href="classCellule.html#a6e66b2864ecf1509183e92f38ad31733">Cellule::addParticule</a></div><div class="ttdeci">void addParticule(int id)</div><div class="ttdoc">Ajoute une particule dans la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:132</div></div>
+<div class="ttc" id="aclassCellule_html_a704c55aa2318387d1835321aa1db3a86"><div class="ttname"><a href="classCellule.html#a704c55aa2318387d1835321aa1db3a86">Cellule::setVoisin</a></div><div class="ttdeci">void setVoisin(int pos, int val)</div><div class="ttdoc">Définit l'indice d'un voisin à une position donnée.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:124</div></div>
+<div class="ttc" id="aclassCellule_html_a755633f52bb0eef5b07739cf016891be"><div class="ttname"><a href="classCellule.html#a755633f52bb0eef5b07739cf016891be">Cellule::getVoisins</a></div><div class="ttdeci">const std::array&lt; int, 27 &gt; &amp; getVoisins() const</div><div class="ttdoc">Retourne le tableau des indices des cellules voisines.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:75</div></div>
+<div class="ttc" id="aclassCellule_html_a8de5c90f5e139cef08b0d3203a09e61b"><div class="ttname"><a href="classCellule.html#a8de5c90f5e139cef08b0d3203a09e61b">Cellule::getParticules</a></div><div class="ttdeci">const std::vector&lt; int &gt; &amp; getParticules() const</div><div class="ttdoc">Retourne la liste des identifiants des particules dans la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:59</div></div>
+<div class="ttc" id="aclassCellule_html_a8f4e214564d91e14b3d8a1f46a5a9acb"><div class="ttname"><a href="classCellule.html#a8f4e214564d91e14b3d8a1f46a5a9acb">Cellule::getIndex</a></div><div class="ttdeci">int getIndex() const</div><div class="ttdoc">Retourne l'indice global de la cellule dans la grille.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:91</div></div>
 <div class="ttc" id="aclassCellule_html_a9ca08caa8c0665098fb620d4d5796ce2"><div class="ttname"><a href="classCellule.html#a9ca08caa8c0665098fb620d4d5796ce2">Cellule::Cellule</a></div><div class="ttdeci">Cellule()</div><div class="ttdoc">Constructeur par défaut.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:37</div></div>
-<div class="ttc" id="aclassCellule_html_aa59fbd37b9eac369631bdb706e45f360"><div class="ttname"><a href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">Cellule::setNbVoisins</a></div><div class="ttdeci">void setNbVoisins(int n)</div><div class="ttdoc">Modifie le nombre de voisins valides.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:101</div></div>
-<div class="ttc" id="aclassCellule_html_ad31c87a30f53a3eb66ba82432f5ddb1d"><div class="ttname"><a href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">Cellule::getCentre</a></div><div class="ttdeci">const Vecteur &amp; getCentre() const</div><div class="ttdoc">Retourne le centre géométrique de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:53</div></div>
-<div class="ttc" id="aclassCellule_html_aeb2a9d6ed940ee055d262db3c4238c30"><div class="ttname"><a href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">Cellule::est_vide</a></div><div class="ttdeci">bool est_vide() const</div><div class="ttdoc">Indique si la cellule ne contient aucune particule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:135</div></div>
-<div class="ttc" id="aclassVecteur_html"><div class="ttname"><a href="classVecteur.html">Vecteur</a></div><div class="ttdoc">Représente un vecteur à trois composantes (x, y, z).</div><div class="ttdef"><b>Definition</b> Vecteur.hpp:18</div></div>
+<div class="ttc" id="aclassCellule_html_aa59fbd37b9eac369631bdb706e45f360"><div class="ttname"><a href="classCellule.html#aa59fbd37b9eac369631bdb706e45f360">Cellule::setNbVoisins</a></div><div class="ttdeci">void setNbVoisins(int n)</div><div class="ttdoc">Modifie le nombre de voisins valides.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:115</div></div>
+<div class="ttc" id="aclassCellule_html_aab24114dccf83128add38fc51a2286d4"><div class="ttname"><a href="classCellule.html#aab24114dccf83128add38fc51a2286d4">Cellule::~Cellule</a></div><div class="ttdeci">~Cellule()=default</div><div class="ttdoc">Destructeur.</div></div>
+<div class="ttc" id="aclassCellule_html_ad31c87a30f53a3eb66ba82432f5ddb1d"><div class="ttname"><a href="classCellule.html#ad31c87a30f53a3eb66ba82432f5ddb1d">Cellule::getCentre</a></div><div class="ttdeci">const Vecteur &amp; getCentre() const</div><div class="ttdoc">Retourne le centre géométrique de la cellule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:67</div></div>
+<div class="ttc" id="aclassCellule_html_aeb2a9d6ed940ee055d262db3c4238c30"><div class="ttname"><a href="classCellule.html#aeb2a9d6ed940ee055d262db3c4238c30">Cellule::est_vide</a></div><div class="ttdeci">bool est_vide() const</div><div class="ttdoc">Indique si la cellule ne contient aucune particule.</div><div class="ttdef"><b>Definition</b> Cellule.hpp:149</div></div>
+<div class="ttc" id="aclassVecteur_html"><div class="ttname"><a href="classVecteur.html">Vecteur</a></div><div class="ttdoc">Représente un vecteur à trois composantes (x, y, z).</div><div class="ttdef"><b>Definition</b> Vecteur.hpp:20</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

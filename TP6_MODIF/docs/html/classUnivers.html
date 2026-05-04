@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TP 4: Univers Class Reference</title>
+<title>TP 6: Univers Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TP 4
+   <div id="projectname">TP 6
    </div>
   </td>
  </tr>
@@ -83,17 +83,20 @@ $(function() {
 <div class="dynheader">
 Collaboration diagram for Univers:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classUnivers__coll__graph.svg" width="198" height="316"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classUnivers__coll__graph.svg" width="198" height="276"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3bb55d782c04ffa5889fe2978adc478e" id="r_a3bb55d782c04ffa5889fe2978adc478e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a3bb55d782c04ffa5889fe2978adc478e">Univers</a> (int dim, double eps=1.0, double sig=1.0, double r_cut=2.5, std::vector&lt; double &gt; longueurs={250.0, 40.0, 40.0})</td></tr>
-<tr class="memdesc:a3bb55d782c04ffa5889fe2978adc478e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur de l'univers de simulation.  <br /></td></tr>
-<tr class="separator:a3bb55d782c04ffa5889fe2978adc478e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae6cafcf1d3cf44ab896301d28bbc6ff" id="r_aae6cafcf1d3cf44ab896301d28bbc6ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#aae6cafcf1d3cf44ab896301d28bbc6ff">Univers</a> (int dim, double eps=1.0, double sig=1.0, double r_cut=2.5, std::vector&lt; double &gt; longueurs={250.0, 40.0, 40.0}, int type=-1)</td></tr>
+<tr class="memdesc:aae6cafcf1d3cf44ab896301d28bbc6ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur de l'univers de simulation.  <br /></td></tr>
+<tr class="separator:aae6cafcf1d3cf44ab896301d28bbc6ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ff6b76c09d9e278eb5d8f825263ceab" id="r_a5ff6b76c09d9e278eb5d8f825263ceab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classParticule.html">Particule</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a5ff6b76c09d9e278eb5d8f825263ceab">get_particules</a> ()</td></tr>
 <tr class="memdesc:a5ff6b76c09d9e278eb5d8f825263ceab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne la liste des particules modifiable.  <br /></td></tr>
 <tr class="separator:a5ff6b76c09d9e278eb5d8f825263ceab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bcfc91b377747dbc28c10555142932d" id="r_a0bcfc91b377747dbc28c10555142932d"><td class="memItemLeft" align="right" valign="top"><a id="a0bcfc91b377747dbc28c10555142932d" name="a0bcfc91b377747dbc28c10555142932d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>get_type_boder</b> () const</td></tr>
+<tr class="separator:a0bcfc91b377747dbc28c10555142932d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71ecf838a6a1682b151d4aba4ba62e3f" id="r_a71ecf838a6a1682b151d4aba4ba62e3f"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="classParticule.html">Particule</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a71ecf838a6a1682b151d4aba4ba62e3f">get_particules</a> () const</td></tr>
 <tr class="memdesc:a71ecf838a6a1682b151d4aba4ba62e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne la liste des particules lecture seule.  <br /></td></tr>
 <tr class="separator:a71ecf838a6a1682b151d4aba4ba62e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,21 +124,40 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31950a8f3c6fdf7634a16f06ab433bba" id="r_a31950a8f3c6fdf7634a16f06ab433bba"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a31950a8f3c6fdf7634a16f06ab433bba">get_voisins</a> (int cellule_idx) const</td></tr>
 <tr class="memdesc:a31950a8f3c6fdf7634a16f06ab433bba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne les indices des cellules voisines d'une cellule.  <br /></td></tr>
 <tr class="separator:a31950a8f3c6fdf7634a16f06ab433bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a932b09d468f5d4418b45807904ec8814" id="r_a932b09d468f5d4418b45807904ec8814"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a932b09d468f5d4418b45807904ec8814">avancer</a> (double dt, double t_end, bool utiliser_gravite=false)</td></tr>
-<tr class="memdesc:a932b09d468f5d4418b45807904ec8814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait avancer la simulation jusqu'à un temps final.  <br /></td></tr>
-<tr class="separator:a932b09d468f5d4418b45807904ec8814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf7221a5b7f0d7fc40e91ba8c09616be" id="r_acf7221a5b7f0d7fc40e91ba8c09616be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#acf7221a5b7f0d7fc40e91ba8c09616be">avancer</a> (double dt, double t_end, bool utiliser_gravite=false, double g=12.0)</td></tr>
+<tr class="memdesc:acf7221a5b7f0d7fc40e91ba8c09616be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait avancer la simulation jusqu'à un temps final.  <br /></td></tr>
+<tr class="separator:acf7221a5b7f0d7fc40e91ba8c09616be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72a8968ce12ca11e87c3a7497a2a561f" id="r_a72a8968ce12ca11e87c3a7497a2a561f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a72a8968ce12ca11e87c3a7497a2a561f">afficher_stats_grille</a> () const</td></tr>
 <tr class="memdesc:a72a8968ce12ca11e87c3a7497a2a561f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche des statistiques sur l'occupation de la grille.  <br /></td></tr>
 <tr class="separator:a72a8968ce12ca11e87c3a7497a2a561f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad828114c4d7458c7b0ecf7ad9d1e7637" id="r_ad828114c4d7458c7b0ecf7ad9d1e7637"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#ad828114c4d7458c7b0ecf7ad9d1e7637">appliquer_conditions_limites</a> ()</td></tr>
+<tr class="memdesc:ad828114c4d7458c7b0ecf7ad9d1e7637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique les conditions aux limites sur toutes les particules.  <br /></td></tr>
+<tr class="separator:ad828114c4d7458c7b0ecf7ad9d1e7637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6434c6c11f6999d313b9e0b58d81dd4" id="r_aa6434c6c11f6999d313b9e0b58d81dd4"><td class="memItemLeft" align="right" valign="top"><a id="aa6434c6c11f6999d313b9e0b58d81dd4" name="aa6434c6c11f6999d313b9e0b58d81dd4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ajouter_forces_parois</b> ()</td></tr>
+<tr class="memdesc:aa6434c6c11f6999d313b9e0b58d81dd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute une force répulsive sur les particules proches des parois. Seules les parois en X et Y sont concernées. Une distance minimale de <picture><source srcset="form_1_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ 0{,}1\,\sigma $" src="form_1.png"/></picture> est imposée pour éviter les divergences. <br /></td></tr>
+<tr class="separator:aa6434c6c11f6999d313b9e0b58d81dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a69825a7079b1c673737a61a1167dd7" id="r_a3a69825a7079b1c673737a61a1167dd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a3a69825a7079b1c673737a61a1167dd7">ajouter_gravite</a> (double g)</td></tr>
+<tr class="memdesc:a3a69825a7079b1c673737a61a1167dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute la force gravitationnelle à toutes les particules selon l'axe des Y.  <br /></td></tr>
+<tr class="separator:a3a69825a7079b1c673737a61a1167dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fa446a8c54c084ade004c3425f0ab6b" id="r_a2fa446a8c54c084ade004c3425f0ab6b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a2fa446a8c54c084ade004c3425f0ab6b">energie_cinetique</a> () const</td></tr>
+<tr class="memdesc:a2fa446a8c54c084ade004c3425f0ab6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule et retourne l'énergie cinétique totale du système. <picture><source srcset="form_2_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ E_c = \sum_i \frac{1}{2} m_i \|\vec{v}_i\|^2 $" src="form_2.png"/></picture>.  <br /></td></tr>
+<tr class="separator:a2fa446a8c54c084ade004c3425f0ab6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ea934b4b9589748f72c98046136691" id="r_a54ea934b4b9589748f72c98046136691"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#a54ea934b4b9589748f72c98046136691">rescaler_vitesses</a> (double Ec_cible)</td></tr>
+<tr class="memdesc:a54ea934b4b9589748f72c98046136691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale les vitesses de toutes les particules pour atteindre une énergie cinétique cible.  <br /></td></tr>
+<tr class="separator:a54ea934b4b9589748f72c98046136691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4c0ce177b69abecfd33353ce6eb6152" id="r_af4c0ce177b69abecfd33353ce6eb6152"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUnivers.html#af4c0ce177b69abecfd33353ce6eb6152">check_validite</a> ()</td></tr>
+<tr class="memdesc:af4c0ce177b69abecfd33353ce6eb6152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie que l'état de la simulation est physiquement valide.  <br /></td></tr>
+<tr class="separator:af4c0ce177b69abecfd33353ce6eb6152"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Représente le domaine de simulation des particules. </p>
 <p>L'univers contient l'ensemble des particules et gère leur évolution temporelle. Il est défini par sa dimension (1, 2 ou 3), ses longueurs caractéristiques <code>L</code>, un rayon de coupure <code>rcut</code> et les paramètres physiques du potentiel de Lennard-Jones (<code>epsilon</code>, <code>sigma</code>).</p>
 <p>L'espace est découpé en une grille de cellules . Seules les particules situées dans des cellules voisines (3 en 1D,9 en 2D, 27 en 3D) et à une distance inférieure à <code>rcut</code> interagissent.</p>
-<dl class="section note"><dt>Note</dt><dd>Le maillage doit être initialisé via <a class="el" href="classUnivers.html#a3bdb2da37202e2008a9c6c9956851ff1" title="Initialise la grille de cellules du maillage spatial.">initialiser_grille()</a> avant d'appeler <a class="el" href="classUnivers.html#a932b09d468f5d4418b45807904ec8814" title="Fait avancer la simulation jusqu&#39;à un temps final.">avancer()</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Le maillage doit être initialisé via <a class="el" href="classUnivers.html#a3bdb2da37202e2008a9c6c9956851ff1" title="Initialise la grille de cellules du maillage spatial.">initialiser_grille()</a> avant d'appeler <a class="el" href="classUnivers.html#acf7221a5b7f0d7fc40e91ba8c09616be" title="Fait avancer la simulation jusqu&#39;à un temps final.">avancer()</a>. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3bb55d782c04ffa5889fe2978adc478e" name="a3bb55d782c04ffa5889fe2978adc478e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bb55d782c04ffa5889fe2978adc478e">&#9670;&#160;</a></span>Univers()</h2>
+<a id="aae6cafcf1d3cf44ab896301d28bbc6ff" name="aae6cafcf1d3cf44ab896301d28bbc6ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae6cafcf1d3cf44ab896301d28bbc6ff">&#9670;&#160;</a></span>Univers()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,7 +190,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>longueurs</em> = <code>{250.0,&#160;40.0,&#160;40.0}</code>&#160;</td>
+          <td class="paramname"><em>longueurs</em> = <code>{250.0,&#160;40.0,&#160;40.0}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -213,6 +241,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3a69825a7079b1c673737a61a1167dd7" name="a3a69825a7079b1c673737a61a1167dd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a69825a7079b1c673737a61a1167dd7">&#9670;&#160;</a></span>ajouter_gravite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Univers::ajouter_gravite </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ajoute la force gravitationnelle à toutes les particules selon l'axe des Y. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>force gravitationnelle . </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a5a14c82d26b06631383cfc8b6f90e45c" name="a5a14c82d26b06631383cfc8b6f90e45c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a14c82d26b06631383cfc8b6f90e45c">&#9670;&#160;</a></span>ajouter_particule()</h2>
 
@@ -239,8 +293,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a932b09d468f5d4418b45807904ec8814" name="a932b09d468f5d4418b45807904ec8814"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a932b09d468f5d4418b45807904ec8814">&#9670;&#160;</a></span>avancer()</h2>
+<a id="ad828114c4d7458c7b0ecf7ad9d1e7637" name="ad828114c4d7458c7b0ecf7ad9d1e7637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad828114c4d7458c7b0ecf7ad9d1e7637">&#9670;&#160;</a></span>appliquer_conditions_limites()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Univers::appliquer_conditions_limites </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applique les conditions aux limites sur toutes les particules. </p>
+<p>Selon X et Y : réflexion élastique sur les quatre parois . En Z : comportement selon <code>type_border</code> </p><ul>
+<li>0 : réflexion</li>
+<li>1 : conditions périodiques</li>
+<li>2 : absorption </li>
+</ul>
+
+</div>
+</div>
+<a id="acf7221a5b7f0d7fc40e91ba8c09616be" name="acf7221a5b7f0d7fc40e91ba8c09616be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf7221a5b7f0d7fc40e91ba8c09616be">&#9670;&#160;</a></span>avancer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,7 +339,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>utiliser_gravite</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>utiliser_gravite</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>g</em> = <code>12.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -301,6 +385,46 @@ Public Member Functions</h2></td></tr>
 
 <p>Calcule les forces de Lennard-Jones entre particules voisines. </p>
 <p>Pour chaque particule, seules les particules dans les cellules voisines sont examinées. La symétrie des forces est exploitée : <picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ F_{ji} = -F_{ij} $" src="form_0.png"/></picture>. </p>
+
+</div>
+</div>
+<a id="af4c0ce177b69abecfd33353ce6eb6152" name="af4c0ce177b69abecfd33353ce6eb6152"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4c0ce177b69abecfd33353ce6eb6152">&#9670;&#160;</a></span>check_validite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Univers::check_validite </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vérifie que l'état de la simulation est physiquement valide. </p>
+<p>Lève une exception <code>std::runtime_error</code> si une particule a une position non finie , ou si l'énergie cinétique totale n'est pas finie. Ces cas indiquent généralement une explosion numérique due à un pas de temps trop grand ou à des particules initialement trop proches. </p>
+
+</div>
+</div>
+<a id="a2fa446a8c54c084ade004c3425f0ab6b" name="a2fa446a8c54c084ade004c3425f0ab6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fa446a8c54c084ade004c3425f0ab6b">&#9670;&#160;</a></span>energie_cinetique()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Univers::energie_cinetique </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calcule et retourne l'énergie cinétique totale du système. <picture><source srcset="form_2_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ E_c = \sum_i \frac{1}{2} m_i \|\vec{v}_i\|^2 $" src="form_2.png"/></picture>. </p>
+<dl class="section return"><dt>Returns</dt><dd>Énergie cinétique totale du système. </dd></dl>
 
 </div>
 </div>
@@ -507,6 +631,33 @@ Public Member Functions</h2></td></tr>
 
 <p>Met à jour l'appartenance des particules aux cellules. </p>
 <p>Vide toutes les cellules puis réaffecte chaque particule à la cellule correspondant à sa position courante. À appeler après chaque déplacement. </p>
+
+</div>
+</div>
+<a id="a54ea934b4b9589748f72c98046136691" name="a54ea934b4b9589748f72c98046136691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54ea934b4b9589748f72c98046136691">&#9670;&#160;</a></span>rescaler_vitesses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Univers::rescaler_vitesses </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Ec_cible</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rescale les vitesses de toutes les particules pour atteindre une énergie cinétique cible. </p>
+<p>Applique un facteur <picture><source srcset="form_3_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \lambda = \sqrt{E_{c,\text{cible}} / E_c} $" src="form_3.png"/></picture> à toutes les vitesses. Ne fait rien si l'énergie cinétique courante est quasi nulle .</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Ec_cible</td><td>Énergie cinétique cible à atteindre. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
