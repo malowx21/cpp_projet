@@ -7,15 +7,12 @@
 // Constructeur : crée l'univers de simulation et l'initialise
 // avec ses paramètres physiques et géomètriques .
 
-Univers::Univers(int dim, double eps, double sig, double r_cut,
-                 std::vector<double> longueurs, int type)
-    : dimension(dim), t(0.0), epsilon(eps), sigma(sig),
-      rcut(r_cut), L(std::move(longueurs)), type_border(type)  
-{
+Univers::Univers(int dim, double eps, double sig, double r_cut,std::vector<double> longueurs, int type)
+    : dimension(dim), t(0.0), epsilon(eps), sigma(sig),rcut(r_cut), L(std::move(longueurs)), type_border(type) {
     while (L.size() < 3) L.push_back(1.0);
     // Calcule du nombre et taille de cellules dans chaque directions 
     for (int d = 0; d < 3; d++) {
-        n_cubes[d]       = std::max(1, static_cast<int>(L[d] / rcut));
+        n_cubes[d] = std::max(1, static_cast<int>(L[d] / rcut));
         taille_cellule[d] = L[d] / n_cubes[d];
     }
     initialiser_grille();
@@ -26,13 +23,10 @@ Univers::Univers(int dim, double eps, double sig, double r_cut,
 void Univers::appliquer_conditions_limites() {
 
     const double eps_wall = 1e-6;
-
     for (auto& p : particules) {
-
         // Références directes — aucune copie Vecteur
         Vecteur& pos = p.getPosition();
         Vecteur& vit = p.getVitesse();
-
         // Selon l'axe X
         if (pos.getX() < 0.0) {
             if (type_border == 0) {
@@ -110,8 +104,6 @@ void Univers::appliquer_conditions_limites() {
                 p.setMasse(0);
             }
         }
-
-        // Plus de setPosition/setVitesse — les refs modifient directement la particule
     }
 
     // Suppression si absorption
@@ -193,10 +185,9 @@ std::vector<int> Univers::get_voisins(int cellule_idx) const {
 
 // Ajoute force de repulsion sur chaque particule qui s'approche des parois
 void Univers::ajouter_forces_parois() {
-
     const double A_cut = std::pow(2.0, 1.0/6.0) * sigma;
 
-    // Helper : force LJ wall pour une distance d
+    // Fonction lambda pour calculer les forces de Lennard-Jones pour chaque cas 
     auto lj_wall = [&](double d) -> double {
         double A   = std::max(d, 0.1 * sigma);
         double invA = 1.0 / A;
@@ -206,15 +197,14 @@ void Univers::ajouter_forces_parois() {
     };
 
     for (auto& p : particules) {
-        Vecteur& pos   = p.getPosition();   // référence directe, 0 copie
-        Vecteur& force = p.getForce();
-
+        Vecteur& pos = p.getPosition();  
+        Vecteur& force= p.getForce();
         const double px = pos.getX();
         const double py = pos.getY();
 
-        if (px < A_cut)        force.setX(force.getX() + lj_wall(px));
+        if (px < A_cut) force.setX(force.getX() + lj_wall(px));
         if (L[0] - px < A_cut) force.setX(force.getX() - lj_wall(L[0] - px));
-        if (py < A_cut)        force.setY(force.getY() + lj_wall(py));
+        if (py < A_cut) force.setY(force.getY() + lj_wall(py));
         if (L[1] - py < A_cut) force.setY(force.getY() - lj_wall(L[1] - py));
     }
 }
@@ -310,7 +300,7 @@ double Univers::energie_cinetique() const {
 void Univers::rescaler_vitesses(double Ec_cible) {
     const double Ec = energie_cinetique();
     if (Ec < 1e-12) {
-        std::cerr << "[Univers] rescaler_vitesses : énergie cinétique quasi-nulle, rescaling ignoré\n";
+        std::cerr << " Energie cinetique quasi-nulle, rescaling ignoré\n";
         return;
     }
     const double lambda = std::sqrt(Ec_cible / Ec);
@@ -335,22 +325,19 @@ void Univers::ajouter_gravite(double g) {
 void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) {
 
     if (t >= t_end) return;
-
     const int N = static_cast<int>(particules.size());
-
     // Forces à t
     calculer_forces_lj();
     if (utiliser_gravite) ajouter_gravite(g);
-
     // Positions — pas de Vecteur temporaire
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
         const double inv_m = 1.0 / p.getMasse();
         const double c     = 0.5 * dt * dt * inv_m;
 
-        Vecteur& pos       = p.getPosition();
+        Vecteur& pos = p.getPosition();
         const Vecteur& vel = p.getVitesse();
-        const Vecteur& f   = p.getForce();
+        const Vecteur& f = p.getForce();
 
         pos.setX(pos.getX() + vel.getX() * dt + f.getX() * c);
         pos.setY(pos.getY() + vel.getY() * dt + f.getY() * c);
@@ -371,19 +358,18 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) 
 
     // Vitesses — pas de Vecteur temporaire
     for (int i = 0; i < N; i++) {
-        Particule& p         = particules[i];
-        const double inv_m   = 1.0 / p.getMasse();
-        const double c       = 0.5 * dt * inv_m;
+        Particule& p = particules[i];
+        const double inv_m = 1.0 / p.getMasse();
+        const double c = 0.5 * dt * inv_m;
 
-        Vecteur& vel           = p.getVitesse();
-        const Vecteur& f_old   = forces_old[i];
-        const Vecteur& f_new   = p.getForce();
+        Vecteur& vel  = p.getVitesse();
+        const Vecteur& f_old = forces_old[i];
+        const Vecteur& f_new  = p.getForce();
 
-        vel.setX(vel.getX() + (f_old.getX() + f_new.getX()) * c);
-        vel.setY(vel.getY() + (f_old.getY() + f_new.getY()) * c);
-        vel.setZ(vel.getZ() + (f_old.getZ() + f_new.getZ()) * c);
+        vel.setX(vel.getX() + (f_old.getX()+f_new.getX()) * c);
+        vel.setY(vel.getY() + (f_old.getY()+f_new.getY()) * c);
+        vel.setZ(vel.getZ() + (f_old.getZ()+f_new.getZ()) * c);
     }
-
     t += dt;
 }
 
@@ -407,9 +393,7 @@ void Univers::afficher_stats_grille() const {
 void Univers::check_validite() {
     for (const auto& p : particules) {
         const Vecteur& pos = p.getPosition();   // référence, pas de copie
-        if (!std::isfinite(pos.getX()) ||
-            !std::isfinite(pos.getY()) ||
-            !std::isfinite(pos.getZ()))
+        if (!std::isfinite(pos.getX()) ||!std::isfinite(pos.getY()) ||!std::isfinite(pos.getZ()))
             throw std::runtime_error("Position non finie détectée, explosion numérique probable");
     }
     if (!std::isfinite(energie_cinetique()))
