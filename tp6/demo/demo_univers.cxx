@@ -144,7 +144,7 @@ int main() {
         if (step % 100 == 0)   U.check_validite();
 
         // Rescaling toutes 1000 itérations comme indiqué dans le tp 
-        if (step > 4000 && step % 1000 == 0)
+        if (step > 5000 && step % 1000 == 0)
             U.rescaler_vitesses(ECIBLE);
 
         if (step > 100 && step % 50 == 0)
