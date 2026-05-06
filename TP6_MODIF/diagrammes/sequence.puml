@@ -1,8 +1,7 @@
 @startuml
 skinparam sequenceMessageAlign center
-
 actor "Utilisateur" as U
-participant "main (demo)" as Main
+participant "main()" as Main
 participant "Univers" as Univ
 participant "Cellule" as Cell
 participant "Particule" as Part
@@ -10,42 +9,54 @@ participant "Particule" as Part
 U -> Main : Lancer simulation
 activate Main
 
-Main -> Univ : avancer(dt)
+Main -> Univ : avancer(dt, G=-12)
 activate Univ
 
 loop Pour chaque pas de temps
-    note over Univ : Intégration (Verlet)
-    
+    note over Univ : Verlet — étape 1
+
     Univ -> Part : updatePosition()
     activate Part
     Part --> Univ : nouvelle position
     deactivate Part
-    
+
     Univ -> Univ : mettre_a_jour_cellules()
     activate Univ
     Univ -> Cell : vider()
     Univ -> Cell : addParticule(id)
     deactivate Univ
-    
+
     Univ -> Univ : calculer_forces_lj()
     activate Univ
-    loop Pour chaque cellule
+    loop Pour chaque cellule voisine
         Univ -> Cell : getParticules()
         Cell --> Univ : liste IDs
-        Univ -> Part : getForce()
-        Univ -> Part : setForce(f)
+        Univ -> Part : setForce(f_LJ + f_gravite)
     end
     deactivate Univ
-    
+
+    Univ -> Univ : appliquer_conditions_limites()
+
     Univ -> Part : updateVitesse()
+    note over Univ : Verlet — étape 2
 end
 
-Univ -> Main : Simulation terminée
 deactivate Univ
 
-Main -> Main : ecrire_vtk()
-note right : Génération fichier pour Paraview
-Main --> U : Simulation visualisable
-deactivate Main
+loop step % 100 == 0
+    Main -> Univ : check_validite()
+end
 
+loop step > 5000 && step % 1000 == 0
+    Main -> Univ : rescaler_vitesses(Ec_cible)
+    note right : Ralentit les particules\npour maintenir Ec ≤ Ec_cible
+end
+
+loop step > 100 && step % 50 == 0
+    Main -> Main : write_vtk(frame++)
+    note right : Export ParaView
+end
+
+Main --> U : Simulation terminée
+deactivate Main
 @enduml

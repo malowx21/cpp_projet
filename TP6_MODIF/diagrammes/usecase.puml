@@ -1,30 +1,26 @@
 @startuml
 left to right direction
 skinparam packageStyle rectangle
-
 actor "Utilisateur (Scientifique)" as User
 actor "Développeur (Testeur)" as Dev
 actor "ParaView (Logiciel Externe)" as PV
-
 rectangle "Système : Simulateur Particulaire" {
-  
   usecase "Lancer la simulation" as UC_Sim
-  usecase "Charger paramètres (dt, RCut, EPS)" as UC_Load
-  usecase "Calculer forces (LJ)" as UC_Force
+  usecase "Charger paramètres (dt, rcut, eps)" as UC_Load
+  usecase "Calculer forces LJ + gravité" as UC_Force
+  usecase "Appliquer conditions aux limites" as UC_CL
+  usecase "Rescaler vitesses (step > 5000)" as UC_Resc
   usecase "Sauvegarder VTK" as UC_VTK
-  
   usecase "Exécuter tests unitaires" as UC_Test
   usecase "Vérifier conservation énergie" as UC_Test1
   usecase "Vérifier voisinage (Grille)" as UC_Test2
-  
-  ' Relations Utilisateur
   User --> UC_Sim
-  UC_Sim ..> UC_Load : <<include>>
-  UC_Sim <.. UC_VTK : <<extend>>
-  UC_VTK -- PV : Produit fichier
+  UC_Sim ..> UC_Load  : <<include>>
   UC_Sim ..> UC_Force : <<include>>
-
-  ' Relations Développeur
+  UC_Sim ..> UC_CL    : <<include>>
+  UC_Sim <.. UC_Resc  : <<extend>>
+  UC_Sim <.. UC_VTK   : <<extend>>
+  UC_VTK -- PV : produit fichier
   Dev --> UC_Test
   UC_Test <|-- UC_Test1
   UC_Test <|-- UC_Test2

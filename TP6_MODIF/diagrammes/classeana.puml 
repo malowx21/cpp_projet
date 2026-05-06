@@ -1,6 +1,5 @@
 @startuml
 skinparam classAttributeIconSize 0
-
 package "Core Physics" {
     class Vecteur {
         - double x, y, z
@@ -8,7 +7,6 @@ package "Core Physics" {
         + double norm()
         + Vecteur operator+(Vecteur)
     }
-
     class Particule {
         - Vecteur position
         - Vecteur vitesse
@@ -19,7 +17,6 @@ package "Core Physics" {
         + void updatePosition()
     }
 }
-
 package "Spatial Optimization" {
     class Cellule {
         - std::vector<int> particules_ids
@@ -30,20 +27,22 @@ package "Spatial Optimization" {
         + int getIndex()
     }
 }
-
 package "Orchestrator" {
     class Univers {
         - std::vector<Particule> particules
         - std::vector<Cellule> cellules
         - double rcut, epsilon, sigma
-        + void avancer(double dt)
+        - int type_border
+        + void avancer(double dt, double G)
         + void calculer_forces_lj()
         + void mettre_a_jour_cellules()
+        + void appliquer_conditions_limites()
+        + void ajouter_forces_parois()
+        + void rescaler_vitesses(double Ec_cible)
+        + void check_validite()
         + void sauvegarderVTK()
     }
 }
-
-' Relations
 Univers *-- "1..n" Particule : gère
 Univers *-- "1..n" Cellule : organise
 Cellule o-- Particule : référence (via IDs)

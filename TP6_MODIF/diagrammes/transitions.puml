@@ -5,41 +5,35 @@ skinparam state {
     BorderColor DarkBlue
     FontName Arial
 }
-
 [*] --> Initialisation
-
 state Initialisation {
     [*] --> AllocationMemoire
     AllocationMemoire --> SetupGrille : calcul n_cubes
-    SetupGrille --> InitParticules : placement initial
+    SetupGrille --> InitParticules : placement mer + disque
 }
-
 Initialisation --> Simulation : demarrer()
-
 state Simulation {
     state VerifierCondition <<choice>>
-    
     [*] --> VerifierCondition
-    
     state EtapeCalcul {
         [*] --> CalculForces
-        CalculForces --> UpdatePosition : Intégration (Verlet)
+        CalculForces --> AppliquerCL : forces LJ + gravité
+        AppliquerCL --> UpdatePosition : Verlet
         UpdatePosition --> UpdateGrille : maillage spatial
+        UpdateGrille --> RescalingConditionnel
+        RescalingConditionnel --> [*] : step <= 5000\nou step % 1000 != 0
+        RescalingConditionnel --> Rescaling : step > 5000\net step % 1000 == 0
+        Rescaling --> [*] : Ec ramenée vers Ec_cible\n(ralentissement)
     }
-    
     VerifierCondition --> EtapeCalcul : t < T_END
     EtapeCalcul --> VerifierCondition
     VerifierCondition --> [*] : t >= T_END
 }
-
 state SauvegardeVTK {
     [*] --> EcritureFichier
     EcritureFichier --> Fermeture : flush
 }
-
-Simulation --> SauvegardeVTK : step % SAVE_EVERY == 0
+Simulation --> SauvegardeVTK : step > 100\net step % 50 == 0
 SauvegardeVTK --> Simulation : retour boucle
-
 Simulation --> [*] : Simulation Terminée
-
 @enduml
