@@ -187,16 +187,27 @@ Les fichiers VTK sont écrits dans `vtk_output/` toutes les 50 itérations (apr�
 
 Les tests utilisent **Google Test** et couvrent les quatre composants principaux.
 
+
 ### Lancer tous les tests
 
 ```bash
 cd build
-ctest --output-on-failure
+ctest --verbose
 # ou individuellement :
 ./test_vecteur
 ./test_particule
 ./test_univers
 ./test_force
+# ou avec filtrage
+./tests --gtest_filter=VecteurTest.Norme
+#tous de même fichier
+./tests --gtest_filter=VecteurTest.*
+#ou plusieurs suites
+./tests --gtest_filter=VecteurTest.*:ParticuleTest.*
+#ou tout sauf une suite
+./tests --gtest_filter=-ForcesLJTest.*
+
+
 ```
 
 ### Couverture des tests
