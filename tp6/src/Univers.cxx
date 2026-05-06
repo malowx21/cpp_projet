@@ -24,7 +24,7 @@ void Univers::appliquer_conditions_limites() {
 
     const double eps_wall = 1e-6;
     for (auto& p : particules) {
-        // Références directes — aucune copie Vecteur
+        // Références directes, aucune copie Vecteur
         Vecteur& pos = p.getPosition();
         Vecteur& vit = p.getVitesse();
         // Selon l'axe X
@@ -329,7 +329,7 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) 
     // Forces à t
     calculer_forces_lj();
     if (utiliser_gravite) ajouter_gravite(g);
-    // Positions — pas de Vecteur temporaire
+   
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
         const double inv_m = 1.0 / p.getMasse();
@@ -356,7 +356,7 @@ void Univers::avancer(double dt, double t_end, bool utiliser_gravite, double g) 
     calculer_forces_lj();
     if (utiliser_gravite) ajouter_gravite(g);
 
-    // Vitesses — pas de Vecteur temporaire
+    
     for (int i = 0; i < N; i++) {
         Particule& p = particules[i];
         const double inv_m = 1.0 / p.getMasse();
