@@ -131,8 +131,8 @@ L'espace est découpé en cellules de taille $r_{\text{cut}}$. Seules les partic
 
 ### Prérequis
 
-- Compilateur C++17 (`g++ ≥ 9` ou `clang++ ≥ 10`)
-- [CMake](https://cmake.org/) ≥ 3.15
+- Compilateur C++17 
+- [CMake](https://cmake.org/) 
 - [Google Test](https://github.com/google/googletest) (pour les tests)
 - [ParaView](https://www.paraview.org/) (pour la visualisation VTK)
 
