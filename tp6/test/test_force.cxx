@@ -30,7 +30,7 @@ static double force_lj_analytique(double eps, double sig, double r) {
 TEST(ForcesLJTest, DistanceEquilibre) {
     const double eps = 1.0, sig = 1.0;
     double r_eq = std::pow(2.0, 1.0 / 6.0) * sig;
-    double F    = force_lj_analytique(eps, sig, r_eq);
+    double F = force_lj_analytique(eps, sig, r_eq);
 
     EXPECT_NEAR(F, 0.0, 1e-12);
 }
@@ -71,7 +71,7 @@ TEST(ForcesLJTest, Rcut) {
     Univers U(2, eps, sig, rcut, {20.0, 20.0, 1.0});
 
     // Distance = 3.0 > rcut
-    U.ajouter_particule(make_part(0,  8.5, 10.0, 0.0));
+    U.ajouter_particule(make_part(0,8.5, 10.0, 0.0));
     U.ajouter_particule(make_part(1, 11.5, 10.0, 0.0));
 
     U.mettre_a_jour_cellules();
@@ -91,7 +91,7 @@ TEST(ForcesLJTest, ValeurAnalytique) {
     Univers U(2, eps, sig, rcut, {20.0, 20.0, 1.0});
 
     U.ajouter_particule(make_part(0, 10.0,10.0, 0.0));
-    U.ajouter_particule(make_part(1, 10.0 + r, 10.0, 0.0));
+    U.ajouter_particule(make_part(1,10.0 + r, 10.0, 0.0));
 
     U.mettre_a_jour_cellules();
     U.calculer_forces_lj();

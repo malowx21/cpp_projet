@@ -97,9 +97,9 @@ TEST(VecteurTest, CopyAndAssignment) {
     Vecteur a(1, 2, 3);
 
     Vecteur b(a);  
-    EXPECT_NEAR(b.getX(), 1, 1e-10);
-    EXPECT_NEAR(b.getY(), 2, 1e-10);
-    EXPECT_NEAR(b.getZ(), 3, 1e-10);
+    EXPECT_NEAR(b.getX(),1, 1e-10);
+    EXPECT_NEAR(b.getY(),2, 1e-10);
+    EXPECT_NEAR(b.getZ(),3, 1e-10);
 
     Vecteur c;
     c = a;  // assignment
